@@ -1,50 +1,117 @@
-# Welcome to your Expo app 👋
+# 🌱 Habit Grow
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Habit Grow es una aplicación mobile minimalista para crear y mantener hábitos diarios, enfocada en la constancia y la motivación visual.  
+A medida que cumplís tus hábitos, un personaje crece y evoluciona junto con vos.
 
-## Get started
+---
 
-1. Install dependencies
+## ✨ Características (MVP)
 
-   ```bash
-   npm install
-   ```
+- ➕ Crear nuevos hábitos
+- 🔁 Configurar frecuencia:
+  - Diaria
+  - Semanal
+  - Días personalizados
+- 📅 Sincronización opcional con calendario
+- ⏰ Alarmas por hábito
+- 🔔 Notificaciones configurables
+- ✅ Marcar hábitos como completados
+- 🧸 Recompensa visual:
+  - Personaje que crece según el progreso
+  - Feedback visual sutil al completar un hábito
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🎯 Objetivo del MVP
 
-In the output, you'll find options to open the app in a
+- Mantener la experiencia simple y sin fricción
+- Evitar métricas agresivas o punitivas
+- Reforzar el hábito mediante progreso visual, no números
+- Validar el uso real de:
+  - Creación de hábitos
+  - Alarmas y notificaciones
+  - Engagement con la recompensa visual
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📱 Pantallas principales
 
-## Get a fresh project
+### Home
+- Lista de hábitos
+- Checkbox de completado
+- Personaje visible con su estado actual
+- Botón flotante para agregar un hábito
 
-When you're ready, run:
+### Crear / Editar hábito
+- Nombre del hábito
+- Selector de frecuencia
+- Opciones configurables:
+  - Sincronizar con calendario
+  - Activar alarma
+  - Activar notificaciones
 
-```bash
-npm run reset-project
-```
+### Feedback de progreso
+- Animación suave del personaje
+- Micro-celebración visual al completar hábitos
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🧸 Gamificación
 
-To learn more about developing your project with Expo, look at the following resources:
+- El personaje evoluciona en etapas
+- Cada hábito completado suma progreso
+- No hay castigos por fallar un día
+- El crecimiento es acumulativo y positivo
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Etapas del personaje (ejemplo)
+1. Semilla / bebé
+2. En crecimiento
+3. Saludable
+4. Floreciendo
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 🎨 Diseño y UX
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Estilo minimalista
+- Colores pastel suaves
+- Mucho espacio en blanco
+- Componentes redondeados
+- Animaciones sutiles y no invasivas
+- Enfoque en calma y consistencia
+
+---
+
+## 🛠️ Stack sugerido
+
+- **Mobile:** React Native / Expo
+- **Estado:** Zustand o Redux Toolkit
+- **Notificaciones:** Expo Notifications / Firebase
+- **Calendario:** APIs nativas (iOS / Android)
+- **Backend (opcional MVP):**
+  - Supabase
+  - Firebase
+- **Base de datos:** PostgreSQL
+
+---
+
+## 🚀 Próximos pasos (post-MVP)
+
+- Estadísticas simples de hábitos
+- Modo oscuro
+- Más personajes o skins
+- Sonidos sutiles de recompensa
+- Sincronización en la nube
+- Backup y login de usuario
+
+---
+
+## 🧪 Estado del proyecto
+
+🚧 MVP en diseño / prototipado
+
+---
+
+## 📄 Licencia
+
+MIT
