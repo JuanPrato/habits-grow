@@ -3,6 +3,7 @@ import { useHabitColor } from "@/hooks/useHabitColor";
 import { useHabitStore } from "@/store/habits.store";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
+import Animated, { ZoomIn } from "react-native-reanimated";
 import { CheckIcon, HABIT_ICONS } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
@@ -24,22 +25,28 @@ export function Habit({ habit }: Props) {
 
   return (
     <Pressable
-      className="w-full p-3 border border-gray-300 my-1 rounded-xl flex-row gap-4 justify-between"
+      className={[
+        "w-full p-4 my-2 border rounded-3xl flex-row gap-4 justify-between",
+        color.cardBg,
+        color.border,
+      ].join(" ")}
       onPress={handlePress}
     >
-      <View className="flex-row gap-2">
+      <View className="flex-row gap-4">
         <View
-          className={["p-3 rounded-xl border-2", color.bg, color.border].join(
-            " "
-          )}
+          className={[
+            "rounded-3xl border-2 aspect-square justify-center items-center",
+            color.bg,
+            color.border,
+          ].join(" ")}
         >
-          <Icon color={color.icon} size="lg" />
+          <Icon color={color.icon} size="md" />
         </View>
         <View className="justify-center gap-1">
           <Typography type="headerTitle" size="xl" wight="medium">
             {habit.title}
           </Typography>
-          <Typography type="subtitle">
+          <Typography type="subtitle" wight="light" size="md">
             {`${habit.currentValue} / ${habit.targetValue}`}
           </Typography>
         </View>
@@ -49,10 +56,18 @@ export function Habit({ habit }: Props) {
           className={[
             "border-2 rounded-full size-10 items-center justify-center",
             color.border,
-            completed ? color.bg : "",
           ].join(" ")}
         >
-          {completed && <CheckIcon color={color.icon} />}
+          {completed && (
+            <Animated.View
+              className={
+                "size-8 rounded-full items-center justify-center " + color.bg
+              }
+              entering={ZoomIn}
+            >
+              <CheckIcon color={color.icon} />
+            </Animated.View>
+          )}
         </View>
       </View>
     </Pressable>

@@ -2,19 +2,23 @@ import { cva, VariantProps } from "class-variance-authority";
 import { PropsWithChildren } from "react";
 import { View } from "react-native";
 
-const badge = cva("py-2 px-3 rounded-2xl", {
+const badge = cva("py-2 px-3 rounded-3xl", {
   variants: {
     type: {
       info: "bg-gray-200",
     },
+    outline: {
+      true: "border-2 border-gray-400",
+    },
   },
   defaultVariants: {
     type: "info",
+    outline: false,
   },
 });
 
 export function Badge(props: PropsWithChildren<VariantProps<typeof badge>>) {
-  const styles = badge({ type: props.type });
+  const styles = badge({ type: props.type, outline: props.outline });
 
   return <View className={styles}>{props.children}</View>;
 }

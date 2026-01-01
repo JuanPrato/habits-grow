@@ -29,6 +29,7 @@ const typography = cva("", {
     },
     wight: {
       default: "",
+      light: "!font-light",
       normal: "!font-normal",
       medium: "!font-medium",
       semibold: "!font-semibold",

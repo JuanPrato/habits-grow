@@ -8,5 +8,6 @@ export function useHabitColor(color: HabitColor) {
     bg: habitColor.bg,
     icon: habitColor.icon,
     border: habitColor.border,
+    cardBg: habitColor.cardBg,
   };
 }

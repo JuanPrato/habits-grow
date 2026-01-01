@@ -40,7 +40,7 @@ export function Mascot({ scroll }: MascotProps) {
     const translateX = interpolate(
       scroll.value,
       [0, HEADER_COLLAPSE_DISTANCE],
-      [0, -width + 150],
+      [0, -width + 140],
       Extrapolation.CLAMP
     );
 

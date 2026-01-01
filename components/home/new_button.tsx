@@ -14,9 +14,8 @@ type Props = {
   scroll: SharedValue<number>;
 };
 
-export function FloatingActionButton({ onPress, scroll }: Props) {
+export function FloatingActionButton({ scroll }: Props) {
   const insets = useSafeAreaInsets();
-
   const visible = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -54,22 +53,24 @@ export function FloatingActionButton({ onPress, scroll }: Props) {
   );
 
   return (
-    <Animated.View
-      style={[
-        {
-          position: "absolute",
-          right: 16,
-          bottom: 16 + insets.bottom,
-        },
-        animatedStyle,
-      ]}
-    >
-      <Pressable
-        onPress={onPress}
-        className="size-20 rounded-full bg-primary-400 items-center justify-center shadow-lg"
+    <>
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            right: 16,
+            bottom: 16 + insets.bottom,
+          },
+          animatedStyle,
+        ]}
       >
-        <AddIcon color="primary.900" />
-      </Pressable>
-    </Animated.View>
+        <Pressable
+          onPress={() => {}}
+          className="size-20 rounded-full bg-primary-400 items-center justify-center shadow-lg"
+        >
+          <AddIcon color="primary.800" />
+        </Pressable>
+      </Animated.View>
+    </>
   );
 }

@@ -15,8 +15,11 @@ import {
   HEADER_MIN_HEIGHT,
 } from "@/constants/const";
 import { Habit as HabitT, HabitType } from "@/constants/types";
+import { useState } from "react";
+import { Badge } from "../ui/badge";
 import { Screen } from "../ui/screen";
 import { Typography } from "../ui/typography";
+import { AddHabitSheet } from "./add_habit_sheet";
 import { Habit } from "./habit";
 import { Header } from "./header";
 import { FloatingActionButton } from "./new_button";
@@ -27,6 +30,7 @@ const AnimatedSectionList = Animated.createAnimatedComponent(
 
 export function HomeScreen() {
   const habits = useHabitStore((s) => s.habitsByCategory);
+  const [open, setOpen] = useState(false);
 
   const scrollY = useSharedValue(0);
 
@@ -62,13 +66,19 @@ export function HomeScreen() {
             <Typography type="title">Tareas de hoy</Typography>
           }
           renderSectionHeader={({ section }) => (
-            <View className="p-2">
-              <Typography type="sectionTitle" size="xl">
-                {HABIT_CATEGORIES[
-                  section.title as keyof typeof HABIT_CATEGORIES
-                ] ?? ""}
-                {/* TODO: Agregar cuantas tareas de la sección estan completas */}
-              </Typography>
+            <View className="py-2 border-gray-300 items-start">
+              <Badge outline>
+                <Typography
+                  type="sectionTitle"
+                  size="xl"
+                  className="text-gray-800 p-1"
+                >
+                  {HABIT_CATEGORIES[
+                    section.title as keyof typeof HABIT_CATEGORIES
+                  ] ?? ""}
+                  {/* TODO: Agregar cuantas tareas de la sección estan completas */}
+                </Typography>
+              </Badge>
             </View>
           )}
           scrollEventThrottle={16}
@@ -77,10 +87,8 @@ export function HomeScreen() {
           stickySectionHeadersEnabled={false}
         />
       </View>
-      <FloatingActionButton
-        onPress={() => console.log("PRESS")}
-        scroll={scrollY}
-      />
+      <FloatingActionButton onPress={() => setOpen(true)} scroll={scrollY} />
+      {open && <AddHabitSheet onClose={() => setOpen(false)} />}
     </Screen>
   );
 }

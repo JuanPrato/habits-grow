@@ -63,7 +63,7 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
           theme.colors.primary[50],
           theme.colors.primary[400],
         ]}
-        locations={[0, 0.1, 1]}
+        locations={[0, 0.05, 1]}
         style={{ flex: 1 }}
       >
         <Animated.View className={"flex-1 p-4"} style={partsStyles}>
