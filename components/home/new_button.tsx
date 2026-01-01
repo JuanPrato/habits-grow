@@ -14,7 +14,7 @@ type Props = {
   scroll: SharedValue<number>;
 };
 
-export function FloatingActionButton({ scroll }: Props) {
+export function FloatingActionButton({ scroll, onPress }: Props) {
   const insets = useSafeAreaInsets();
   const visible = useSharedValue(1);
 
@@ -65,7 +65,7 @@ export function FloatingActionButton({ scroll }: Props) {
         ]}
       >
         <Pressable
-          onPress={() => {}}
+          onPress={onPress}
           className="size-20 rounded-full bg-primary-400 items-center justify-center shadow-lg"
         >
           <AddIcon color="primary.800" />

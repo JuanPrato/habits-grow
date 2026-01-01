@@ -8,6 +8,8 @@ interface HabitStoreState {
   habitsByCategory: Record<HabitType, Habit[]>;
   percentageComplete: number;
   modifyStatus: (habitId: string, status: boolean) => void;
+  modalOpen: boolean;
+  toggleModal: (value?: boolean) => void;
 }
 
 const MOCK_HABITS: Habit[] = [
@@ -138,6 +140,12 @@ export const useHabitStore = create<HabitStoreState>((set, get) => ({
       habits: [...get().habits],
       habitsByCategory: getHabitsByCategory(get().habits),
       percentageComplete: getPercentage(get().habits),
+    });
+  },
+  modalOpen: false,
+  toggleModal(value?: boolean) {
+    set({
+      modalOpen: value ?? !get().modalOpen,
     });
   },
 }));
