@@ -29,3 +29,10 @@ export interface IconProps {
   color?: Color;
   size?: "sm" | "md" | "lg";
 }
+
+export interface Profile {
+  id: string;
+  name: string;
+  lastName?: string | null;
+  picture?: string | null;
+}

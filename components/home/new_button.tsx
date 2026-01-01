@@ -1,3 +1,4 @@
+import { useHabitStore } from "@/store/habits.store";
 import { Pressable } from "react-native";
 import Animated, {
   SharedValue,
@@ -10,13 +11,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AddIcon } from "../ui/icon";
 
 type Props = {
-  onPress: () => void;
   scroll: SharedValue<number>;
 };
 
-export function FloatingActionButton({ scroll, onPress }: Props) {
+export function FloatingActionButton({ scroll }: Props) {
   const insets = useSafeAreaInsets();
   const visible = useSharedValue(1);
+  const toggleModal = useHabitStore((s) => s.toggleModal);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -65,7 +66,7 @@ export function FloatingActionButton({ scroll, onPress }: Props) {
         ]}
       >
         <Pressable
-          onPress={onPress}
+          onPress={() => toggleModal(true)}
           className="size-20 rounded-full bg-primary-400 items-center justify-center shadow-lg"
         >
           <AddIcon color="primary.800" />

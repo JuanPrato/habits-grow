@@ -1,5 +1,4 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { View } from "react-native";
 
 import Animated, {
   Extrapolation,
@@ -14,8 +13,7 @@ import {
   HEADER_MIN_HEIGHT,
 } from "@/constants/const";
 import { theme } from "@/constants/theme";
-import { Badge } from "../ui/badge";
-import { Typography } from "../ui/typography";
+import { Greetings } from "./header_grettings";
 import { HeaderStats } from "./header_stats";
 import { Mascot } from "./mascot";
 
@@ -29,17 +27,6 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
     );
 
     return { height };
-  });
-
-  const headerStyles = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      scroll.value,
-      [0, HEADER_COLLAPSE_DISTANCE],
-      [1, 0],
-      Extrapolation.CLAMP
-    );
-
-    return { opacity };
   });
 
   const partsStyles = useAnimatedStyle(() => {
@@ -67,20 +54,7 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
         style={{ flex: 1 }}
       >
         <Animated.View className={"flex-1 p-4"} style={partsStyles}>
-          <Animated.View
-            className="flex-row justify-between items-center h-[50px] absolute top-[16px] left-[16px] w-full z-20"
-            style={[headerStyles]}
-          >
-            <View>
-              <Typography type="headerTitle">Hola Juan!</Typography>
-              <Typography type="info" wight="semibold">
-                Listo para progresar?
-              </Typography>
-            </View>
-            <Badge>
-              <Typography type="info">OCT 28</Typography>
-            </Badge>
-          </Animated.View>
+          <Greetings scroll={scroll} />
           <Mascot scroll={scroll} />
           <HeaderStats scroll={scroll} />
         </Animated.View>

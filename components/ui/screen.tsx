@@ -1,6 +1,19 @@
 import { PropsWithChildren } from "react";
 import { View } from "react-native";
 
-export function Screen(props: PropsWithChildren) {
-  return <View className="flex-1 bg-green-50">{props.children}</View>;
+interface ScreenProps {
+  center?: boolean;
+}
+
+export function Screen(props: PropsWithChildren<ScreenProps>) {
+  return (
+    <View
+      className={[
+        "flex-1 bg-green-50",
+        props.center ? "items-center justify-center" : "",
+      ].join(" ")}
+    >
+      {props.children}
+    </View>
+  );
 }

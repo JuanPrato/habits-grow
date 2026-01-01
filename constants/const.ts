@@ -54,3 +54,13 @@ export const ICONS_SIZES = {
   md: 24,
   lg: 36,
 } as const;
+
+// AUTH
+export const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL!;
+export const GOOGLE_REDIRECT_URI = `${process.env.EXPO_PUBLIC_BASE_URL}/api/auth/callback`;
+
+export const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || "";
+export const SUPABASE_PUBLIC_KEY =
+  process.env.EXPO_PUBLIC_SUPABASE_PUBLIC_KEY || "";
+
+export const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME;

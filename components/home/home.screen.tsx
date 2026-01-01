@@ -15,11 +15,9 @@ import {
   HEADER_MIN_HEIGHT,
 } from "@/constants/const";
 import { Habit as HabitT, HabitType } from "@/constants/types";
-import { useState } from "react";
 import { Badge } from "../ui/badge";
 import { Screen } from "../ui/screen";
 import { Typography } from "../ui/typography";
-import { AddHabitSheet } from "./add_habit_sheet";
 import { Habit } from "./habit";
 import { Header } from "./header";
 import { FloatingActionButton } from "./new_button";
@@ -30,7 +28,6 @@ const AnimatedSectionList = Animated.createAnimatedComponent(
 
 export function HomeScreen() {
   const habits = useHabitStore((s) => s.habitsByCategory);
-  const [open, setOpen] = useState(false);
 
   const scrollY = useSharedValue(0);
 
@@ -87,8 +84,7 @@ export function HomeScreen() {
           stickySectionHeadersEnabled={false}
         />
       </View>
-      <FloatingActionButton onPress={() => setOpen(true)} scroll={scrollY} />
-      {open && <AddHabitSheet onClose={() => setOpen(false)} />}
+      <FloatingActionButton scroll={scrollY} />
     </Screen>
   );
 }
