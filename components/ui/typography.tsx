@@ -5,6 +5,7 @@ import { Text } from "react-native";
 interface Props {
   children: string | string[] | number;
   className?: string;
+  style?: any;
 }
 
 const typography = cva("", {
@@ -61,7 +62,11 @@ export function Typography(props: VariantProps<typeof typography> & Props) {
     className: props.className,
   });
 
-  return <Text className={styles}>{props.children}</Text>;
+  return (
+    <Text className={styles} style={props.style}>
+      {props.children}
+    </Text>
+  );
 }
 
 // Inputs components

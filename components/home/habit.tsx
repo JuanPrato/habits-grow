@@ -3,13 +3,21 @@ import { useHabitColor } from "@/hooks/useHabitColor";
 import { useHabitStore } from "@/store/habits.store";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import Animated, { ZoomIn } from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  ZoomIn,
+} from "react-native-reanimated";
 import { CheckIcon, HABIT_ICONS } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
 interface Props {
   habit: HabitType;
 }
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function Habit({ habit }: Props) {
   const color = useHabitColor(habit.color);
@@ -21,18 +29,34 @@ export function Habit({ habit }: Props) {
   function handlePress() {
     modifyStatus(habit.id, !completed);
     setCompleted((c) => !c);
+
+    scale.value = withSequence(
+      withSpring(1.03, {
+        duration: 150,
+      }),
+      withSpring(1, {
+        duration: 150,
+      })
+    );
   }
 
+  const scale = useSharedValue(1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
   return (
-    <Pressable
+    <AnimatedPressable
       className={[
         "w-full p-4 my-2 border rounded-3xl flex-row gap-4 justify-between",
         color.cardBg,
         color.border,
       ].join(" ")}
       onPress={handlePress}
+      style={animatedStyle}
     >
-      <View className="flex-row gap-4">
+      <View className="flex-row gap-4" pointerEvents="none">
         <View
           className={[
             "rounded-3xl border-2 aspect-square justify-center items-center",
@@ -51,7 +75,7 @@ export function Habit({ habit }: Props) {
           </Typography>
         </View>
       </View>
-      <View className="justify-center">
+      <View className="justify-center" pointerEvents="none">
         <View
           className={[
             "border-2 rounded-full size-10 items-center justify-center",
@@ -70,6 +94,6 @@ export function Habit({ habit }: Props) {
           )}
         </View>
       </View>
-    </Pressable>
+    </AnimatedPressable>
   );
 }

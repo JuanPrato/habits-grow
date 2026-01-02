@@ -67,7 +67,7 @@ export function FloatingActionButton({ scroll }: Props) {
       >
         <Pressable
           onPress={() => toggleModal(true)}
-          className="size-20 rounded-full bg-primary-400 items-center justify-center shadow-lg"
+          className="size-20 rounded-full bg-emerald-300 items-center justify-center shadow-lg"
         >
           <AddIcon color="primary.800" />
         </Pressable>

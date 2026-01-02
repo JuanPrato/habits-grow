@@ -18,7 +18,7 @@ export function StatsCard({ items }: StatsCardProps) {
         <View
           key={index}
           className={`flex-1 items-center justify-center px-3 py-4 ${
-            index < items.length - 1 ? "border-r border-gray-200/40" : ""
+            index < items.length - 1 ? "border-r border-primary-700/20" : ""
           }`}
         >
           {/* Icon */}

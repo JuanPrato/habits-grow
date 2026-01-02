@@ -47,7 +47,7 @@ import { HabitIcon, IconProps } from "@/constants/types";
 import { getIconProps } from "@/constants/utils";
 
 const makeIcon = (Icon: LucideIcon) => (p: IconProps) => (
-  <Icon {...getIconProps(p)} />
+  <Icon {...getIconProps(p)} pointerEvents="none" />
 );
 
 export const GlassIcon = makeIcon(GlassWater);

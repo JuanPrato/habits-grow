@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
         user: null,
       });
 
-      useUserStore.setState({ profile: null });
+      useUserStore.getState().inviteProfile();
       return;
     }
 

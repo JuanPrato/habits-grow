@@ -41,14 +41,14 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
 
   return (
     <Animated.View
-      className="rounded-b-3xl overflow-hidden bg-transparent"
+      className="rounded-b-3xl overflow-hidden z-10"
       style={[animatedStyles]}
     >
       <LinearGradient
         colors={[
           theme.colors.white,
           theme.colors.primary[50],
-          theme.colors.primary[400],
+          theme.colors.primary[200],
           theme.colors.primary[50],
         ]}
         locations={[0, 0.05, 0.9, 1]}

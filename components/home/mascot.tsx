@@ -88,7 +88,7 @@ export function Mascot({ scroll }: MascotProps) {
   );
 
   return (
-    <Animated.View className="h-[160px] z-10" style={[mascotStyle]}>
+    <Animated.View className="h-[160px] z-10 shadow" style={[mascotStyle]}>
       <Image
         style={{ flex: 1 }}
         source={require("../../assets/images/character/initial.png")}

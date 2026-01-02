@@ -23,7 +23,7 @@ export function ConfigCard({ items }: ConfigCardProps) {
             key={index}
             onPress={item.onPress}
             className={`flex-row items-center px-4 py-4 ${
-              !isLast ? "border-b border-gray-200/40" : ""
+              !isLast ? "border-b border-primary-700/20" : ""
             }`}
           >
             {/* Icon */}
@@ -40,7 +40,7 @@ export function ConfigCard({ items }: ConfigCardProps) {
 
             {/* Chevron */}
             {!item.destructive && (
-              <Typography className="text-gray-400 text-lg">›</Typography>
+              <Typography className="text-primary-700 text-lg">›</Typography>
             )}
           </Pressable>
         );

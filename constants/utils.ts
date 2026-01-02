@@ -25,3 +25,15 @@ function getSize(size?: keyof typeof ICONS_SIZES) {
 export function getIconProps(props: IconProps) {
   return { color: getColor(props.color), size: getSize(props.size) };
 }
+
+// PARSING
+
+const dateFormatter = new Intl.DateTimeFormat("es-AR", {
+  dateStyle: "medium",
+});
+
+export function formatDate(date: Date) {
+  const a = dateFormatter.formatToParts(date);
+
+  return `${a[0].value} ${a[2].value.toUpperCase()}`;
+}

@@ -1,5 +1,6 @@
 import { HEADER_COLLAPSE_DISTANCE } from "@/constants/const";
-import { useAuth } from "@/hooks/useAuth";
+import { formatDate } from "@/constants/utils";
+import { useUserStore } from "@/store/user.store";
 import { View } from "react-native";
 import Animated, {
   Extrapolation,
@@ -10,10 +11,12 @@ import Animated, {
 import { Badge } from "../ui/badge";
 import { Typography } from "../ui/typography";
 
-export function Greetings({ scroll }: { scroll: SharedValue<number> }) {
-  const { user } = useAuth();
+const AnimateTypography = Animated.createAnimatedComponent(Typography);
 
-  const headerStyles = useAnimatedStyle(() => {
+export function Greetings({ scroll }: { scroll: SharedValue<number> }) {
+  const profile = useUserStore((s) => s.profile);
+
+  const subtitleStyles = useAnimatedStyle(() => {
     const opacity = interpolate(
       scroll.value,
       [0, HEADER_COLLAPSE_DISTANCE],
@@ -24,7 +27,32 @@ export function Greetings({ scroll }: { scroll: SharedValue<number> }) {
     return { opacity };
   });
 
-  console.log(user?.user_metadata);
+  const headerStyles = useAnimatedStyle(() => {
+    const scale = interpolate(
+      scroll.value,
+      [0, HEADER_COLLAPSE_DISTANCE],
+      [1, 0.8],
+      Extrapolation.CLAMP
+    );
+
+    const translateX = interpolate(
+      scroll.value,
+      [0, HEADER_COLLAPSE_DISTANCE],
+      [0, 48],
+      Extrapolation.CLAMP
+    );
+
+    const translateY = interpolate(
+      scroll.value,
+      [0, HEADER_COLLAPSE_DISTANCE],
+      [0, 10],
+      Extrapolation.CLAMP
+    );
+
+    return { transform: [{ scale }, { translateX }, { translateY }] };
+  });
+
+  const today = new Date();
 
   return (
     <Animated.View
@@ -32,15 +60,17 @@ export function Greetings({ scroll }: { scroll: SharedValue<number> }) {
       style={[headerStyles]}
     >
       <View>
-        <Typography type="headerTitle">
-          ¡Bienvenido{` ${user?.user_metadata?.name}`}!
+        <Typography type="headerTitle" size="xl">
+          ¡Bienvenido{` ${profile?.name}`}!
         </Typography>
-        <Typography type="info" wight="semibold">
-          Listo para progresar?
-        </Typography>
+        <AnimateTypography type="info" wight="semibold" style={subtitleStyles}>
+          ¿Listo para progresar?
+        </AnimateTypography>
       </View>
-      <Badge>
-        <Typography type="info">OCT 28</Typography>
+      <Badge className="bg-primary-600">
+        <Typography type="info" className="text-primary-50" wight="medium">
+          {formatDate(today)}
+        </Typography>
       </Badge>
     </Animated.View>
   );

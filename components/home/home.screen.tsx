@@ -45,6 +45,7 @@ export function HomeScreen() {
         [0, HEADER_MIN_HEIGHT],
         Extrapolation.CLAMP
       ),
+      overflow: "visible",
     };
   }, [scrollY]);
 
@@ -60,14 +61,14 @@ export function HomeScreen() {
           renderItem={({ item }) => <Habit habit={item} />}
           keyExtractor={(item) => item.id}
           ListHeaderComponent={
-            <Typography type="title">Tareas de hoy</Typography>
+            <Typography type="title">Hábitos de hoy</Typography>
           }
           renderSectionHeader={({ section }) => (
-            <View className="py-2 border-gray-300 items-start">
-              <Badge outline>
+            <View className="pt-3 pb-1 border-gray-300 items-start">
+              <Badge outline className="!border py-1">
                 <Typography
                   type="sectionTitle"
-                  size="xl"
+                  size="lg"
                   className="text-gray-800 p-1"
                 >
                   {HABIT_CATEGORIES[
