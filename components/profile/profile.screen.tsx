@@ -25,7 +25,7 @@ export function ProfileScreen() {
   const { user, signIn, signOut } = useAuth();
 
   const profile = useUserStore((s) => s.profile);
-  console.log({ profile });
+
   return (
     <Screen>
       <View className="overflow-hidden mb-4">

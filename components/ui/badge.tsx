@@ -19,7 +19,7 @@ const badge = cva("py-2 px-3 rounded-3xl", {
 });
 
 export function Badge(
-  props: PropsWithChildren<VariantProps<typeof badge>> & { className: string }
+  props: PropsWithChildren<VariantProps<typeof badge>> & { className?: string }
 ) {
   const styles = badge({
     type: props.type,
