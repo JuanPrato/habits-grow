@@ -13,7 +13,7 @@ type StatsCardProps = {
 
 export function StatsCard({ items }: StatsCardProps) {
   return (
-    <View className="bg-primary-50 rounded-2xl shadow-sm border border-gray-200/30 flex-row">
+    <View className="bg-primary-50 rounded-2xl border border-primary-700 flex-row">
       {items.map((item, index) => (
         <View
           key={index}

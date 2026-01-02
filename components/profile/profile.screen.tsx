@@ -28,15 +28,15 @@ export function ProfileScreen() {
   console.log({ profile });
   return (
     <Screen>
-      <View className="rounded-[75px] overflow-hidden mb-4">
+      <View className="overflow-hidden mb-4">
         <LinearGradient
           colors={[
             theme.colors.white,
-            theme.colors.primary[200],
+            theme.colors.primary[50],
             theme.colors.primary[200],
             theme.colors.primary[50],
           ]}
-          locations={[0, 0.3, 0.7, 1]}
+          locations={[0, 0.05, 0.9, 1]}
         >
           <View className="p-4 h-[200px] items-center justify-center gap-2">
             <View>
@@ -67,7 +67,7 @@ export function ProfileScreen() {
       <View className="p-2 relative">
         <Badge
           type="primary"
-          className="absolute left-1/2 -translate-x-[43px] -top-4 z-10 w-[100px] h-[30px]"
+          className="absolute left-1/2 -translate-x-[43px] -top-2 z-10 w-[100px] h-[30px]"
         >
           <Typography
             wight="semibold"

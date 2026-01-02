@@ -14,7 +14,7 @@ type ConfigCardProps = {
 
 export function ConfigCard({ items }: ConfigCardProps) {
   return (
-    <View className="bg-primary-50 rounded-2xl shadow-sm border border-gray-200/30">
+    <View className="bg-primary-50 rounded-2xl border border-primary-700">
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
 
