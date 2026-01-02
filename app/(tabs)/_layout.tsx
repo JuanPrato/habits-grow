@@ -22,6 +22,9 @@ export default function TabsLayout() {
               tabBarLabelStyle: {
                 color: theme.colors.primary["900"],
               },
+              tabBarStyle: {
+                backgroundColor: theme.colors.primary[50],
+              },
             }}
           >
             <Tabs.Screen
