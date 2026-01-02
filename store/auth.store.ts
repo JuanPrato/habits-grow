@@ -1,11 +1,10 @@
-import { Profile } from "@/constants/types";
 import { supabase } from "@/lib/supabase";
 import { type User } from "@supabase/supabase-js";
 import { create } from "zustand";
+import { useUserStore } from "./user.store";
 
 interface AuthStoreState {
   user: null | User;
-  profile: null | Profile;
   setUser: (user: any) => Promise<void>;
 }
 
@@ -16,8 +15,9 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
     if (!user) {
       set({
         user: null,
-        profile: null,
       });
+
+      useUserStore.setState({ profile: null });
       return;
     }
 
@@ -32,9 +32,17 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
       return;
     }
 
-    if (!data) {
+    if (!data || data.length === 0) {
       set({
         user,
+      });
+
+      useUserStore.setState({
+        profile: {
+          id: user.id,
+          name: user.user_metadata?.name,
+          picture: user.user_metadata.picture,
+        },
       });
       return;
     }
@@ -43,6 +51,9 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
 
     set({
       user,
+    });
+
+    useUserStore.setState({
       profile: {
         id: profile.id,
         name: profile.name,
@@ -55,4 +66,4 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
 
 supabase.auth
   .getUser()
-  .then((user) => useAuthStore.setState({ user: user.data.user }));
+  .then((user) => useAuthStore.getState().setUser(user.data.user));

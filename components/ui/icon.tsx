@@ -1,15 +1,19 @@
 import {
   Bed,
+  Bell,
   BookOpen,
   Brain,
+  Calendar,
   CalendarCheck,
   Check,
   CheckSquare,
   ClipboardCheck,
   Coffee,
+  Download,
   Droplet,
   Dumbbell,
   Eye,
+  Flame,
   Flower,
   Folder,
   Footprints,
@@ -19,6 +23,7 @@ import {
   HeartHandshake,
   Home,
   Lightbulb,
+  LogOut,
   MessageCircle,
   Moon,
   Palette,
@@ -51,6 +56,11 @@ export const HomeIcon = makeIcon(Home);
 export const StatsIcon = makeIcon(ClipboardCheck);
 export const ProfileIcon = makeIcon(User);
 export const AddIcon = makeIcon(Plus);
+export const FlameIcon = makeIcon(Flame);
+export const NotificationsIcon = makeIcon(Bell);
+export const CalendarIcon = makeIcon(Calendar);
+export const DownloadIcon = makeIcon(Download);
+export const LogOutIcon = makeIcon(LogOut);
 
 export const HABIT_ICONS: Record<
   HabitIcon,

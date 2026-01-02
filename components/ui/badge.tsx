@@ -5,6 +5,7 @@ import { View } from "react-native";
 const badge = cva("py-2 px-3 rounded-3xl", {
   variants: {
     type: {
+      primary: "bg-primary-200",
       info: "bg-gray-200",
     },
     outline: {
@@ -17,8 +18,14 @@ const badge = cva("py-2 px-3 rounded-3xl", {
   },
 });
 
-export function Badge(props: PropsWithChildren<VariantProps<typeof badge>>) {
-  const styles = badge({ type: props.type, outline: props.outline });
+export function Badge(
+  props: PropsWithChildren<VariantProps<typeof badge>> & { className: string }
+) {
+  const styles = badge({
+    type: props.type,
+    outline: props.outline,
+    className: props.className,
+  });
 
   return <View className={styles}>{props.children}</View>;
 }
