@@ -1,4 +1,5 @@
 import { Pressable, View } from "react-native";
+import { Card } from "../ui/card";
 import { Typography } from "../ui/typography";
 
 type ConfigItem = {
@@ -14,7 +15,7 @@ type ConfigCardProps = {
 
 export function ConfigCard({ items }: ConfigCardProps) {
   return (
-    <View className="bg-primary-50 rounded-2xl border border-primary-700">
+    <Card>
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
 
@@ -22,18 +23,16 @@ export function ConfigCard({ items }: ConfigCardProps) {
           <Pressable
             key={index}
             onPress={item.onPress}
-            className={`flex-row items-center px-4 py-4 ${
-              !isLast ? "border-b border-primary-700/20" : ""
-            }`}
+            className={`flex-row items-center px-4 py-4 ${!isLast ? "border-b border-primary-700/20" : ""
+              }`}
           >
             {/* Icon */}
             <View className="mr-4">{item.icon}</View>
 
             {/* Label */}
             <Typography
-              className={`flex-1 text-base ${
-                item.destructive ? "text-red-500 font-medium" : "text-gray-800"
-              }`}
+              className={`flex-1 text-base ${item.destructive ? "text-red-500 font-medium" : "text-gray-800"
+                }`}
             >
               {item.label}
             </Typography>
@@ -45,6 +44,6 @@ export function ConfigCard({ items }: ConfigCardProps) {
           </Pressable>
         );
       })}
-    </View>
+    </Card>
   );
 }

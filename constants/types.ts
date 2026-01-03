@@ -13,6 +13,12 @@ export type HabitType =
 // Explicitly declare HabitIcon type to avoid circular reference
 export type HabitIcon = `${HabitType}_${string}`;
 
+type HabitDay = {
+  day: string;
+  selected: boolean;
+  completed?: boolean;
+};
+
 export type Habit = {
   id: string;
   title: string;
@@ -23,6 +29,7 @@ export type Habit = {
   unit: string;
   completed: boolean;
   color: HabitColor;
+  days: HabitDay[];
 };
 
 export interface IconProps {

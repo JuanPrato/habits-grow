@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 import { theme } from "@/constants/theme";
 import { Profile } from "@/constants/types";
-import { ProfileIcon } from "../ui/icon";
+import { FlameIcon, ProfileIcon } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
 interface Props {
@@ -51,7 +51,10 @@ export function ProfileHeader({ profile }: Props) {
             <Typography type="title" wight="semibold">
               {profile?.name ?? "Invitado"}
             </Typography>
-            <Typography type="subtitle">12 días en racha</Typography>
+            <View className="flex-row gap-1">
+              <FlameIcon color="orange.500" />
+              <Typography type="subtitle">12 días en racha</Typography>
+            </View>
           </View>
         </View>
       </LinearGradient>

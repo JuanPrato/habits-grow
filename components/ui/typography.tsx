@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import { Text } from "react-native";
 
 interface Props {
-  children: string | string[] | number;
+  children: string | string[] | number | number[] | (string | number)[];
   className?: string;
   style?: any;
 }

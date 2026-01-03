@@ -1,4 +1,6 @@
+import { cva, VariantProps } from "class-variance-authority";
 import { View } from "react-native";
+import { Card } from "../ui/card";
 import { Typography } from "../ui/typography";
 
 type StatItem = {
@@ -8,38 +10,53 @@ type StatItem = {
 };
 
 type StatsCardProps = {
-  items: [StatItem, StatItem, StatItem];
+  items: StatItem[];
 };
 
-export function StatsCard({ items }: StatsCardProps) {
+const item = cva("flex-1 items-center justify-center px-3", {
+  variants: {
+    compressed: {
+      true: "py-2 flex-row gap-2",
+      false: "py-4",
+    }
+  },
+  defaultVariants: {
+    compressed: false,
+  }
+})
+
+export function StatsCard({ items, compressed }: StatsCardProps & VariantProps<typeof item>) {
+
+  const itemStyle = item({ compressed });
+
   return (
-    <View className="bg-primary-50 rounded-2xl border border-primary-700 flex-row">
+    <Card className="flex-row">
       {items.map((item, index) => (
         <View
           key={index}
-          className={`flex-1 items-center justify-center px-3 py-4 ${
-            index < items.length - 1 ? "border-r border-primary-700/20" : ""
-          }`}
+          className={`${itemStyle} ${index < items.length - 1 ? "border-r border-primary-700/20" : ""} `}
         >
           {/* Icon */}
           <View className="mb-2">{item.icon}</View>
 
-          {/* Value */}
-          {item.value && (
-            <View className="mb-1">
-              {typeof item.value === "string" ||
-              typeof item.value === "number" ? (
-                <Typography>{item.value}</Typography>
-              ) : (
-                item.value
-              )}
-            </View>
-          )}
+          <View className="items-center">
+            {/* Value */}
+            {item.value && (
+              <View className="mb-1">
+                {typeof item.value === "string" ||
+                  typeof item.value === "number" ? (
+                  <Typography wight="semibold" size="lg">{item.value}</Typography>
+                ) : (
+                  item.value
+                )}
+              </View>
+            )}
 
-          {/* Label */}
-          <Typography>{item.label}</Typography>
+            {/* Label */}
+            <Typography>{item.label}</Typography>
+          </View>
         </View>
       ))}
-    </View>
+    </Card>
   );
 }

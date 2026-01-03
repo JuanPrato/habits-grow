@@ -64,6 +64,6 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
   },
 }));
 
-supabase.auth
-  .getUser()
-  .then((user) => useAuthStore.getState().setUser(user.data.user));
+supabase.auth.onAuthStateChange((event, session) => {
+  useAuthStore.getState().setUser(session?.user || null);
+});

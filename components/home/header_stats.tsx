@@ -67,7 +67,7 @@ export function HeaderStats({ scroll }: Props) {
       <Animated.View style={quoteStyles}>
         <Typography type="title">¡Vas muy bien!</Typography>
       </Animated.View>
-      <ProgressBar progress={percentage / 100} />
+      <ProgressBar initialProgress={percentage / 100} />
       <Typography type="info">
         Progreso de hoy {percentage.toFixed(0) ?? "0"}%
       </Typography>

@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import { StatsScreen } from "@/components/stats/stats.screen";
 
-export default function StatsScreen() {
-  return (
-    <View>
-      <Text>STATS</Text>
-    </View>
-  );
+export default function Stats() {
+  return <StatsScreen />;
 }

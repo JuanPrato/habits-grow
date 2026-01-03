@@ -1,5 +1,7 @@
+import { theme } from "@/constants/theme";
+import { cva, VariantProps } from "class-variance-authority";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,26 +9,43 @@ import Animated, {
 } from "react-native-reanimated";
 
 import Svg, { Circle } from "react-native-svg";
+import { Typography } from "./typography";
 
 type ProgressBarProps = {
-  progress: number; // valor entre 0 y 1
+  initialProgress: number; // valor entre 0 y 1
 };
 
-export function ProgressBar({ progress }: ProgressBarProps) {
+const progress = cva("w-full bg-primary-900 rounded-2xl overflow-hidden", {
+  variants: {
+    size: {
+      sm: "h-2",
+      md: "h-3",
+      lg: "h-6",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
+
+export function ProgressBar({ initialProgress, size }:
+  VariantProps<typeof progress> & ProgressBarProps) {
   const progressValue = useSharedValue(0);
 
+  const progressStyle = progress({ size });
+
   useEffect(() => {
-    progressValue.value = withTiming(progress, {
+    progressValue.value = withTiming(initialProgress, {
       duration: 500,
     });
-  }, [progress]);
+  }, [initialProgress]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     width: `${progressValue.value * 100}%`,
   }));
 
   return (
-    <View className="h-3 w-full bg-primary-900 rounded-2xl overflow-hidden">
+    <View className={progressStyle}>
       <Animated.View
         className="h-full bg-primary-600 rounded-2xl"
         style={animatedStyle}
@@ -41,14 +60,16 @@ type ProgressDonutProps = {
   strokeWidth?: number;
   color?: string;
   backgroundColor?: string;
+  textSize?: "xs" | "sm" | "md" | "lg";
 };
 
 export function ProgressDonut({
   value,
   size = 48,
   strokeWidth = 6,
-  color = "#22C55E",
-  backgroundColor = "#E5E7EB",
+  color = theme.colors.primary[600],
+  backgroundColor = theme.colors.gray[200],
+  textSize = "xs"
 }: ProgressDonutProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -85,9 +106,9 @@ export function ProgressDonut({
 
       {/* Texto */}
       <View className="absolute">
-        <Text className="text-xs font-semibold text-gray-700">
+        <Typography className="font-semibold text-gray-700" size={textSize}>
           {Math.round(value * 100)}%
-        </Text>
+        </Typography>
       </View>
     </View>
   );

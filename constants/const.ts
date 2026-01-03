@@ -8,31 +8,31 @@ export const HEADER_COLLAPSE_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 export const HABIT_COLORS = {
   sage: {
     bg: "bg-emerald-200",
-    cardBg: "bg-emerald-50",
+    cardBg: "!bg-emerald-50",
     icon: "emerald.600",
     border: "border-emerald-400",
   },
   sky: {
     bg: "bg-sky-200",
-    cardBg: "bg-sky-50",
+    cardBg: "!bg-sky-50",
     icon: "sky.600",
     border: "border-sky-400",
   },
   lavender: {
     bg: "bg-violet-200",
-    cardBg: "bg-violet-50",
+    cardBg: "!bg-violet-50",
     icon: "violet.600",
     border: "border-violet-400",
   },
   peach: {
     bg: "bg-rose-200",
-    cardBg: "bg-rose-50",
+    cardBg: "!bg-rose-50",
     icon: "rose.600",
     border: "border-rose-400",
   },
   sand: {
     bg: "bg-amber-100",
-    cardBg: "bg-amber-50",
+    cardBg: "!bg-amber-50",
     icon: "amber.600",
     border: "border-amber-300",
   },
