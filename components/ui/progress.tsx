@@ -40,9 +40,14 @@ export function ProgressBar({ initialProgress, size }:
     });
   }, [initialProgress]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: `${progressValue.value * 100}%`,
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+
+    const width = (progressValue.value ?? 0) * 100;
+
+    return ({
+      width: !!width ? `${width}%` : "0%",
+    });
+  });
 
   return (
     <View className={progressStyle}>

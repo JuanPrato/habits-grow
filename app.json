@@ -20,13 +20,9 @@
       "package": "com.juanprato.habitsapp"
     },
     "web": {
-      "output": "server"
+      "output": "static"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "expo-sqlite"
-    ],
+    "plugins": ["expo-router", "expo-font", "expo-sqlite"],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
