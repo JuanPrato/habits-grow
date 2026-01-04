@@ -12,16 +12,18 @@ import { useEffect } from "react";
 export default function RootLayout() {
 
   const user = useAuthStore(s => s.user);
+  const loading = useAuthStore(s => s.loading);
   const setHabits = useHabitStore(s => s.updateHabits)
 
   useEffect(() => {
+    if (loading) return;
     if (user)
       getHabits(user.id).then(habits => {
         setHabits(habits);
       });
     else
       setHabits(MOCK_HABITS);
-  }, [user]);
+  }, [user, loading]);
 
   return (
     <ThemeProvider>

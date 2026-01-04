@@ -5,16 +5,18 @@ import { useUserStore } from "./user.store";
 
 interface AuthStoreState {
   user: null | User;
+  loading: boolean;
   setUser: (user: any) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthStoreState>((set, get) => ({
   user: null,
-  profile: null,
+  loading: true,
   async setUser(user) {
     if (!user) {
       set({
         user: null,
+        loading: false,
       });
 
       useUserStore.getState().inviteProfile();
@@ -35,6 +37,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
     if (!data || data.length === 0) {
       set({
         user,
+        loading: false,
       });
 
       useUserStore.setState({
@@ -51,6 +54,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
 
     set({
       user,
+      loading: false,
     });
 
     useUserStore.setState({

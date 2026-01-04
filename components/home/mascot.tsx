@@ -1,4 +1,3 @@
-import { Image } from "expo-image";
 import Animated, {
   Extrapolation,
   interpolate,
@@ -6,15 +5,29 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withTiming
 } from "react-native-reanimated";
 
 import { HEADER_COLLAPSE_DISTANCE } from "@/constants/const";
 import { useHabitStore } from "@/store/habits.store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
+import { SpriteAnimation } from "../ui/sprite_animation";
 
 const { width } = Dimensions.get("window");
+
+const ASSETS = {
+  idle: {
+    source: require("../../assets/images/character/training_woman/sprite.png"),
+    frames: 3,
+    fps: 3,
+  },
+  celebrating: {
+    source: require("../../assets/images/character/training_woman/celebrating.png"),
+    frames: 1,
+    fps: 1
+  }
+} as const;
 
 interface MascotProps {
   scroll: SharedValue<number>;
@@ -24,9 +37,23 @@ export function Mascot({ scroll }: MascotProps) {
   const percentage = useHabitStore((s) => s.percentageComplete);
   const progress = useSharedValue(percentage);
   const petAnimation = useSharedValue(0);
+  const [state, setState] = useState<keyof typeof ASSETS>("idle");
 
   useEffect(() => {
+    let t: number;
+    if (progress.value < percentage) {
+      setState("celebrating");
+      t = setTimeout(() => {
+        setState("idle");
+      }, 1000);
+    } else {
+      setState("idle");
+    }
     progress.value = percentage;
+
+    return () => {
+      if (t) clearTimeout(t);
+    }
   }, [percentage]);
 
   const mascotStyle = useAnimatedStyle(() => {
@@ -88,11 +115,13 @@ export function Mascot({ scroll }: MascotProps) {
   );
 
   return (
-    <Animated.View className="h-[160px] z-10 shadow" style={[mascotStyle]}>
-      <Image
-        style={{ flex: 1 }}
-        source={require("../../assets/images/character/training_woman/initial.png")}
-        contentFit="contain"
+    <Animated.View className="h-[160px] overflow-hidden z-0 shadow items-center" style={[mascotStyle]}>
+      <SpriteAnimation
+        fps={ASSETS[state].fps}
+        source={ASSETS[state].source}
+        frames={ASSETS[state].frames}
+        frameWidth={82}
+        frameHeight={160}
       />
     </Animated.View>
   );
