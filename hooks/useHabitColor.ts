@@ -1,9 +1,12 @@
 import { HABIT_COLORS } from "@/constants/const";
 import { HabitColor } from "@/constants/types";
 import { getColor } from "@/constants/utils";
+import { useThemeStore } from "@/store/theme.store";
 
-export function useHabitColor(color: HabitColor) {
-  const habitColor = HABIT_COLORS[color];
+export function useHabitColor(color?: HabitColor) {
+  const themeName = useThemeStore((s) => s.themeName);
+
+  const habitColor = HABIT_COLORS[color ?? themeName];
 
   return {
     bg: habitColor.bg,

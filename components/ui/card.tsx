@@ -6,11 +6,11 @@ interface CardProps {
   className?: string;
 }
 
-const card = cva("p-1 rounded-3xl border border-primary-700 gap-2", {
+const card = cva("bg-primary-50 p-1 rounded-3xl border border-primary-700 gap-2", {
   variants: {
     accent: {
-      true: "bg-primary-50 border-primary-600",
-      false: "bg-primary-50",
+      true: "border-primary-600",
+      false: "",
     }
   },
   defaultVariants: {

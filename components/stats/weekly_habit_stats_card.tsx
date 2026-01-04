@@ -26,15 +26,16 @@ export function WeeklyHabitStatsCard({
   const completedDays = week.filter(d => d.completed).length;
   const totalWeekDays = week.filter(d => d.selected).length;
 
-  const color = useHabitColor(selected?.color ?? "sky");
-  const Icon = HABIT_ICONS[selected?.icon ?? "health_hydration"];
+  const color = useHabitColor(selected?.color);
+  const Icon = selected ? HABIT_ICONS[selected.icon] : undefined;
 
+  console.log({ color });
   return (
     <Card className={`p-4 ${color.cardBg} ${color.border}`}>
 
       {/* Title */}
       <View className="flex-row gap-1">
-        <Icon color={color.icon} />
+        {Icon && <Icon color={color.icon} />}
         <Typography size="lg" className="mb-3">
           {habitName} · Esta semana
         </Typography>

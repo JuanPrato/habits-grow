@@ -1,6 +1,8 @@
-import { HabitIcon } from "@/constants/types";
+import { HABIT_CATEGORIES, HABIT_COLORS } from "@/constants/const";
+import { HabitIcon, HabitType } from "@/constants/types";
+import { useHabitStore } from "@/store/habits.store";
 import { useState } from "react";
-import { FlatList, Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, SectionList, Text, View } from "react-native";
 import { Button } from "../ui/button";
 import { HABIT_ICONS } from "../ui/icon";
 import { Typography } from "../ui/typography";
@@ -13,15 +15,14 @@ export type HabitOption = {
 
 type HabitDropdownProps = {
   value?: HabitOption;
-  options: HabitOption[];
   onSelect: (habit: HabitOption) => void;
 };
 
 export function HabitDropdown({
   value,
-  options,
   onSelect,
 }: HabitDropdownProps) {
+  const habits = useHabitStore(s => s.habitsByCategory);
   const [open, setOpen] = useState(false);
 
   const Icon = value ? HABIT_ICONS[value.icon] : null;
@@ -40,41 +41,48 @@ export function HabitDropdown({
         visible={open}
         transparent
         animationType="slide"
-        onRequestClose={() => setOpen(false)
-        }
+        onRequestClose={() => setOpen(false)}
       >
         <Pressable
           className="flex-1 bg-black/30"
           onPress={() => setOpen(false)}
         />
 
-        <View className="bg-white rounded-t-3xl px-4 pt-4 pb-8">
+        <View className="max-h-[60%] bg-primary-50 rounded-t-3xl px-4 pt-4 pb-8">
           <View className="w-10 h-1 bg-gray-300 rounded-full self-center mb-4" />
 
           <Text className="text-lg font-semibold mb-4">
             Elegir hábito
           </Text>
 
-          <FlatList
-            data={options}
+          <SectionList
+            sections={Object.entries(habits).map(([key, value]) => ({
+              title: key as HabitType,
+              data: value,
+            }))}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               const Icon = HABIT_ICONS[item.icon];
+              const color = HABIT_COLORS[item.color];
               return (
                 <Pressable
                   onPress={() => {
                     onSelect(item);
                     setOpen(false);
                   }}
-                  className="flex-row items-center gap-3 py-4 border-b border-gray-100"
+                  className="flex-row items-center gap-3 py-4 border-b border-gray-300"
                 >
-                  {!!Icon && <Icon color="black" />}
+                  {!!Icon && <Icon color={color.icon} />}
                   <Text className="text-base text-gray-800">
                     {item.title}
                   </Text>
                 </Pressable>
               )
             }}
+            renderSectionHeader={({ section }) => (
+              <View className="py-2 bg-primary-50">
+                <Typography type="sectionTitle">{HABIT_CATEGORIES[section.title]}</Typography>
+              </View>)}
           />
         </View>
       </Modal>

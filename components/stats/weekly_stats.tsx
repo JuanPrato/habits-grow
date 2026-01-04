@@ -16,7 +16,7 @@ export function WeeklyStats() {
     <View className="mt-2 px-2 gap-2">
       <View className="flex-row justify-between">
         <Typography type="sectionTitle" size="xl" className="p-2">Progreso por hábito</Typography>
-        <HabitDropdown onSelect={(v) => { setSelectedHabit(habits.find(h => h.id === v.id)) }} options={habits} value={selectedHabit} />
+        <HabitDropdown onSelect={(v) => { setSelectedHabit(habits.find(h => h.id === v.id)) }} value={selectedHabit} />
       </View>
       <WeeklyHabitStatsCard
         selected={selectedHabit}
