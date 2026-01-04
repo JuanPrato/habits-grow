@@ -1,4 +1,3 @@
-import { reloadAsync } from "expo-updates";
 import { vars } from "nativewind";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { View } from "react-native";
@@ -15,11 +14,9 @@ const THEMES: Record<ThemeName, Record<string, string>> = {
   amber: generateVarsObject(theme.colors.amber)
 }
 
-theme.colors.primary = theme.colors.emerald;
-
 export function ThemeProvider(props: PropsWithChildren) {
 
-  const themeName = useThemeStore(s => s.theme);
+  const themeName = useThemeStore(s => s.themeName);
   const [cssVars, setCssVars] = useState(vars(THEMES[themeName]));
   const [prev, setPrev] = useState(themeName);
 
@@ -27,12 +24,9 @@ export function ThemeProvider(props: PropsWithChildren) {
     if (themeName === prev) return;
 
     setCssVars(vars(THEMES[themeName]))
-    theme.colors.primary = theme.colors[themeName as keyof typeof theme.colors] as any;
     setPrev(themeName);
-    reloadAsync();
-
   }, [themeName]);
 
-  return <View className="flex-1" style={cssVars}>{props.children}</View>
+  return <View className="flex-1" style={cssVars} key={themeName}>{props.children}</View>
 
 }

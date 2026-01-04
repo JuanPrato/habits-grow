@@ -6,7 +6,7 @@ import { NewHabitInputProps } from "./new_habit_form";
 
 export function ColorInput(props: NewHabitInputProps) {
 
-  const [color, setColor] = useState<keyof typeof HABIT_COLORS | undefined>();
+  const [color, setColor] = useState<keyof typeof HABIT_COLORS | undefined>(props.value.color);
 
   function setColorAndNotify(c: keyof typeof HABIT_COLORS) {
     setColor(c);

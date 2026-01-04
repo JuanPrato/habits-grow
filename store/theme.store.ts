@@ -5,22 +5,24 @@ import { create } from "zustand";
 export type ThemeName = "emerald" | "sky" | "violet" | "rose" | "amber";
 
 type ThemeStoreState = {
-  theme: ThemeName;
+  themeName: ThemeName;
   setTheme: (t: ThemeName) => void;
 };
 
 export const useThemeStore = create<ThemeStoreState>((set, get) => ({
-  theme: "emerald",
+  themeName: "emerald",
+  theme: theme,
   async setTheme(t) {
     await AsyncStorage.setItem("theme", t);
-
+    theme.colors.primary = theme.colors[
+      (t as keyof typeof theme.colors) ?? "emerald"
+    ] as any;
     set({
-      theme: t,
+      themeName: t,
     });
   },
 }));
 
 AsyncStorage.getItem("theme", (error, data) => {
-  useThemeStore.setState({ theme: (data as any) ?? "emerald" });
-  theme.colors.primary = theme.colors[data as keyof typeof theme.colors] as any;
+  useThemeStore.getState().setTheme((data as any) ?? "emerald");
 });

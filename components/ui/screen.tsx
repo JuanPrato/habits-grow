@@ -9,7 +9,7 @@ export function Screen(props: PropsWithChildren<ScreenProps>) {
   return (
     <View
       className={[
-        "flex-1 bg-green-50",
+        "flex-1 bg-primary-50",
         props.center ? "items-center justify-center" : "",
       ].join(" ")}
     >
