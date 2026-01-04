@@ -8,7 +8,7 @@ import { NewHabitInputProps } from "./new_habit_form";
 export function NameInput(props: NewHabitInputProps) {
 
   const [title, setTitle] = useState("");
-  const color = useHabitColor(props.value.color ?? "sage");
+  const color = useHabitColor(props.value.color ?? "emerald");
 
   return (
     <View className="gap-2">

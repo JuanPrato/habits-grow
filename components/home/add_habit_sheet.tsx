@@ -12,7 +12,7 @@ export function AddHabitSheet({ onClose }: AddHabitSheetProps) {
   const sheetRef = useRef<BottomSheet>(null);
 
   const snapPoints = useMemo(() => ["70%"], []);
-  const [selectedColor, setSelectedColor] = useState<HabitColor>("sage");
+  const [selectedColor, setSelectedColor] = useState<HabitColor>("emerald");
 
   const color = useHabitColor(selectedColor);
 

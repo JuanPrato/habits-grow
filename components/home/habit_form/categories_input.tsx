@@ -11,7 +11,7 @@ import { NewHabitInputProps } from "./new_habit_form";
 
 export function CategoriesInput(props: NewHabitInputProps) {
 
-  const color = useHabitColor(props.value.color ?? "sage")
+  const color = useHabitColor(props.value.color ?? "emerald")
 
   const categories = useMemo(() => Object.entries(HABIT_CATEGORIES).map(([key, name]) => ({
     id: key as HabitType,

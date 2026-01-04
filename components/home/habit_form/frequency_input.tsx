@@ -19,7 +19,7 @@ const WEEK_DAYS = [
 
 export function FrequencyInput(props: NewHabitInputProps) {
 
-  const color = useHabitColor(props.value.color || "sage");
+  const color = useHabitColor(props.value.color || "emerald");
   const [frequency, setFrequency] = useState<HabitFrequency>("daily");
   const [days, setDays] = useState<number[]>([]);
 
