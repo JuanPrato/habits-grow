@@ -49,14 +49,14 @@ export function Habit({ habit }: Props) {
   return (
     <AnimatedPressable
       className={[
-        "w-full p-4 my-2 border rounded-3xl flex-row gap-4 justify-between",
+        "w-full p-4 my-2 border rounded-3xl flex-row gap-4 justify-between overflow-visible",
         color.cardBg,
         color.border,
       ].join(" ")}
       onPress={handlePress}
       style={animatedStyle}
     >
-      <View className="flex-row gap-4" pointerEvents="none">
+      <View className="flex-row gap-4 flex-1" pointerEvents="none">
         <View
           className={[
             "rounded-3xl border-2 aspect-square justify-center items-center",
@@ -66,8 +66,8 @@ export function Habit({ habit }: Props) {
         >
           <Icon color={color.icon} size="md" />
         </View>
-        <View className="justify-center gap-1">
-          <Typography type="headerTitle" size="xl" wight="medium">
+        <View className="justify-center gap-1 flex-1">
+          <Typography type="headerTitle" size="xl" wight="semibold" numberOfLines={1}>
             {habit.title}
           </Typography>
           <Typography type="subtitle" wight="light" size="md">
@@ -75,7 +75,7 @@ export function Habit({ habit }: Props) {
           </Typography>
         </View>
       </View>
-      <View className="justify-center" pointerEvents="none">
+      <View className="justify-center w-[30px]" pointerEvents="none">
         <View
           className={[
             "border-2 rounded-full size-10 items-center justify-center",

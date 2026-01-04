@@ -6,6 +6,7 @@ interface Props {
   children: string | string[] | number | number[] | (string | number)[];
   className?: string;
   style?: any;
+  numberOfLines?: number;
 }
 
 const typography = cva("", {
@@ -18,6 +19,7 @@ const typography = cva("", {
       sectionTitle: "text-lg text-textPrimary font-semibold",
       paragraph: "text-lg leading-tight",
       error: "text-sm text-red-500 font-semibold",
+      label: "text-md text-gray-600 font-medium",
     },
     size: {
       default: "",
@@ -43,6 +45,7 @@ const typography = cva("", {
     color: {
       primary: "text-primaryText",
       accent: "text-white",
+      muted: "text-gray-500",
     },
   },
   defaultVariants: {
@@ -63,7 +66,7 @@ export function Typography(props: VariantProps<typeof typography> & Props) {
   });
 
   return (
-    <Text className={styles} style={props.style}>
+    <Text className={styles} style={props.style} numberOfLines={props.numberOfLines} ellipsizeMode="tail">
       {props.children}
     </Text>
   );

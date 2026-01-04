@@ -1,6 +1,8 @@
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useMemo, useRef } from "react";
-import { Text } from "react-native";
+import { HabitColor } from "@/constants/types";
+import { useHabitColor } from "@/hooks/useHabitColor";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useMemo, useRef, useState } from "react";
+import { NewHabitForm } from "./habit_form/new_habit_form";
 
 type AddHabitSheetProps = {
   onClose?: () => void;
@@ -9,23 +11,27 @@ type AddHabitSheetProps = {
 export function AddHabitSheet({ onClose }: AddHabitSheetProps) {
   const sheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["60%"], []);
+  const snapPoints = useMemo(() => ["70%"], []);
+  const [selectedColor, setSelectedColor] = useState<HabitColor>("sage");
+
+  const color = useHabitColor(selectedColor);
 
   return (
     <BottomSheet
       ref={sheetRef}
       snapPoints={snapPoints}
-      index={0}
-      enablePanDownToClose
+      index={1}
       onClose={onClose}
+      keyboardBehavior="interactive"
+      enablePanDownToClose={true}
+      enableContentPanningGesture={false}
+      containerStyle={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+      backgroundStyle={{ backgroundColor: color.hex }}
     >
-      <BottomSheetView className="px-6 py-4 flex-1 bg-red-200 h-[1000px]">
-        <Text className="text-lg font-semibold mb-4 text-black">
-          Nuevo hábito
-        </Text>
-
+      <BottomSheetScrollView className="px-6 py-4 flex-1" >
         {/* Formulario */}
-      </BottomSheetView>
+        <NewHabitForm onSubmit={() => { }} onColorChange={(c: HabitColor) => setSelectedColor(c)} />
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 }

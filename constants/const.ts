@@ -1,37 +1,42 @@
-import { HabitType } from "./types";
+import { ColorInfo, HabitColor, HabitType } from "./types";
 
 export const HEADER_MAX_HEIGHT = 275;
 export const HEADER_MIN_HEIGHT = 125;
 
 export const HEADER_COLLAPSE_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
-export const HABIT_COLORS = {
-  sage: {
+export const HABIT_COLORS: Record<HabitColor, ColorInfo> = {
+  emerald: {
     bg: "bg-emerald-200",
+    bgGet: "emerald.50",
     cardBg: "!bg-emerald-50",
     icon: "emerald.600",
     border: "border-emerald-400",
   },
   sky: {
     bg: "bg-sky-200",
+    bgGet: "sky.50",
     cardBg: "!bg-sky-50",
     icon: "sky.600",
     border: "border-sky-400",
   },
-  lavender: {
+  violet: {
     bg: "bg-violet-200",
+    bgGet: "violet.50",
     cardBg: "!bg-violet-50",
     icon: "violet.600",
     border: "border-violet-400",
   },
-  peach: {
+  rose: {
     bg: "bg-rose-200",
+    bgGet: "rose.50",
     cardBg: "!bg-rose-50",
     icon: "rose.600",
     border: "border-rose-400",
   },
-  sand: {
+  amber: {
     bg: "bg-amber-100",
+    bgGet: "amber.50",
     cardBg: "!bg-amber-50",
     icon: "amber.600",
     border: "border-amber-300",
@@ -56,11 +61,6 @@ export const ICONS_SIZES = {
 } as const;
 
 // AUTH
-export const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL!;
-export const GOOGLE_REDIRECT_URI = `${process.env.EXPO_PUBLIC_BASE_URL}/api/auth/callback`;
-
 export const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL || "";
 export const SUPABASE_PUBLIC_KEY =
   process.env.EXPO_PUBLIC_SUPABASE_PUBLIC_KEY || "";
-
-export const APP_SCHEME = process.env.EXPO_PUBLIC_SCHEME;

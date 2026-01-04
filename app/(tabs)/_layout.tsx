@@ -13,8 +13,8 @@ export default function TabsLayout() {
   const toggleModal = useHabitStore((s) => s.toggleModal);
 
   return (
-    <GestureHandlerRootView className="flex-1 bg-blue-200" style={{ flex: 1 }}>
-      <SafeAreaView className="bg-white flex-1" edges={["top"]}>
+    <GestureHandlerRootView className="flex-1" style={{ flex: 1 }}>
+      <SafeAreaView className="bg-primary-50 flex-1" edges={["top"]}>
         <View style={{ flex: 1 }}>
           <Tabs
             screenOptions={{
@@ -34,7 +34,7 @@ export default function TabsLayout() {
                 tabBarIcon(props) {
                   return (
                     <HomeIcon
-                      color={props.focused ? "primary.900" : "primary.700"}
+                      color={props.focused ? "primary.900" : "primary.500"}
                     />
                   );
                 },
@@ -47,7 +47,7 @@ export default function TabsLayout() {
                 tabBarIcon(props) {
                   return (
                     <StatsIcon
-                      color={props.focused ? "primary.900" : "primary.700"}
+                      color={props.focused ? "primary.900" : "primary.500"}
                     />
                   );
                 },
@@ -60,7 +60,7 @@ export default function TabsLayout() {
                 tabBarIcon(props) {
                   return (
                     <ProfileIcon
-                      color={props.focused ? "primary.900" : "primary.700"}
+                      color={props.focused ? "primary.900" : "primary.500"}
                     />
                   );
                 },

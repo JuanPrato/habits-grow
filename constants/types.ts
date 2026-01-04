@@ -1,6 +1,7 @@
+import { ThemeName } from "@/store/theme.store";
 import { Color } from "./theme";
 
-export type HabitColor = "sage" | "sky" | "lavender" | "peach" | "sand";
+export type HabitColor = ThemeName;
 
 export type HabitType =
   | "health"
@@ -19,6 +20,8 @@ type HabitDay = {
   completed?: boolean;
 };
 
+export type HabitFrequency = "daily" | "custom";
+
 export type Habit = {
   id: string;
   title: string;
@@ -30,6 +33,14 @@ export type Habit = {
   completed: boolean;
   color: HabitColor;
   days: HabitDay[];
+};
+
+export type ColorInfo = {
+  bg: string;
+  bgGet: Color;
+  cardBg: string;
+  icon: Color;
+  border: string;
 };
 
 export interface IconProps {

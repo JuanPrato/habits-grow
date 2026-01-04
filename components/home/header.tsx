@@ -41,17 +41,17 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
 
   return (
     <Animated.View
-      className="rounded-b-3xl overflow-hidden z-10"
+      className="rounded-b-3xl overflow-hidden z-10 absolute top-0 left-0 right-0"
       style={[animatedStyles]}
     >
       <LinearGradient
         colors={[
-          theme.colors.white,
+          theme.colors.primary[50],
           theme.colors.primary[50],
           theme.colors.primary[200],
           theme.colors.primary[50],
         ]}
-        locations={[0, 0.05, 0.9, 1]}
+        locations={[0.05, .5, 0.9, 1]}
         style={{ flex: 1 }}
       >
         <Animated.View className={"flex-1 p-4"} style={partsStyles}>

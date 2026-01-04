@@ -10,7 +10,7 @@ export function StatsHeader() {
   return (
     <LinearGradient
       colors={[
-        theme.colors.white,
+        theme.colors.primary[50],
         theme.colors.primary[50],
         theme.colors.primary[200],
         theme.colors.primary[50],
@@ -22,7 +22,7 @@ export function StatsHeader() {
           <View className="size-32 shadow -translate-x-2">
             <Image
               style={{ flex: 1 }}
-              source={require("../../assets/images/character/initial.png")}
+              source={require("../../assets/images/character/training_woman/initial.png")}
               contentFit="contain"
             />
           </View>

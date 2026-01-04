@@ -1,10 +1,14 @@
 // ICONS
 
+import { DefaultColors } from "tailwindcss/types/generated/colors";
 import { ICONS_SIZES } from "./const";
 import { theme, type Color, type ColorsObj } from "./theme";
 import type { IconProps } from "./types";
 
-function getColor(color?: Color, obj?: ColorsObj[keyof ColorsObj]): string {
+export function getColor(
+  color?: Color,
+  obj?: ColorsObj[keyof ColorsObj]
+): string {
   if (!color) return "white";
   if (obj && typeof obj === "string") return obj;
 
@@ -24,6 +28,22 @@ function getSize(size?: keyof typeof ICONS_SIZES) {
 
 export function getIconProps(props: IconProps) {
   return { color: getColor(props.color), size: getSize(props.size) };
+}
+
+export function generateVarsObject(color: DefaultColors[keyof DefaultColors]) {
+  return {
+    "--color-primary-50": color["50"],
+    "--color-primary-100": color["100"],
+    "--color-primary-200": color["200"],
+    "--color-primary-300": color["300"],
+    "--color-primary-400": color["400"],
+    "--color-primary-500": color["500"],
+    "--color-primary-600": color["600"],
+    "--color-primary-700": color["700"],
+    "--color-primary-800": color["800"],
+    "--color-primary-900": color["900"],
+    "--color-primary-950": color["950"],
+  };
 }
 
 // PARSING

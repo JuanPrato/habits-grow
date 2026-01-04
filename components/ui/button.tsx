@@ -2,7 +2,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { PropsWithChildren } from "react";
 import { Pressable } from "react-native";
 
-const button = cva("bg-primary-200 p-2 rounded-3xl items-center justify-center", {
+const button = cva("p-2 rounded-3xl items-center justify-center", {
   variants: {
     size: {
       sm: "p-2 ",
@@ -12,7 +12,11 @@ const button = cva("bg-primary-200 p-2 rounded-3xl items-center justify-center",
     full: {
       true: "w-full",
       false: "w-auto",
-    }
+    },
+    disabled: {
+      true: "bg-gray-300",
+      false: "bg-primary-200",
+    },
   },
   defaultVariants: {
     size: "md",
@@ -28,7 +32,7 @@ interface ButtonProps {
 export function Button(props: PropsWithChildren<ButtonProps> & VariantProps<typeof button>) {
   const { onPress } = props;
 
-  const buttonStyles = button({ size: props.size, full: props.full, className: props.className });
+  const buttonStyles = button({ size: props.size, full: props.full, disabled: props.disabled, className: props.className });
 
   return (
     <Pressable

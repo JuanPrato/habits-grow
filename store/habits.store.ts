@@ -22,7 +22,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 3,
     unit: "vasos",
     completed: false,
-    color: "sage",
+    color: "emerald",
     days: [
       { day: "L", selected: true, completed: true },
       { day: "M", selected: false, completed: false },
@@ -42,7 +42,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 1,
     unit: "sesión",
     completed: true,
-    color: "lavender",
+    color: "violet",
     days: [
       { day: "L", selected: true, completed: true },
       { day: "M", selected: true, completed: true },
@@ -82,7 +82,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 0,
     unit: "minutos",
     completed: false,
-    color: "sage",
+    color: "emerald",
     days: [
       { day: "L", selected: true, completed: true },
       { day: "M", selected: true, completed: true },
@@ -102,7 +102,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 0,
     unit: "entrada",
     completed: false,
-    color: "lavender",
+    color: "violet",
     days: [
       { day: "L", selected: false, completed: false },
       { day: "M", selected: false, completed: false },
@@ -122,7 +122,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 1,
     unit: "vez",
     completed: true,
-    color: "sand",
+    color: "amber",
     days: [
       { day: "L", selected: true, completed: true },
       { day: "M", selected: false, completed: false },
@@ -142,7 +142,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 4500,
     unit: "pasos",
     completed: false,
-    color: "sage",
+    color: "emerald",
     days: [
       { day: "L", selected: true, completed: true },
       { day: "M", selected: true, completed: true },
@@ -162,7 +162,7 @@ const MOCK_HABITS: Habit[] = [
     currentValue: 40,
     unit: "minutos",
     completed: false,
-    color: "peach",
+    color: "rose",
     days: [
       { day: "L", selected: false, completed: false },
       { day: "M", selected: true, completed: true },

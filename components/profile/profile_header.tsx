@@ -16,12 +16,11 @@ export function ProfileHeader({ profile }: Props) {
     <View className="overflow-hidden mb-4">
       <LinearGradient
         colors={[
-          theme.colors.white,
           theme.colors.primary[50],
           theme.colors.primary[200],
           theme.colors.primary[50],
         ]}
-        locations={[0, 0.05, 0.9, 1]}
+        locations={[0, 0.9, 1]}
       >
         <View className="p-4 h-[200px] items-center justify-center gap-2">
           <View>
@@ -42,7 +41,7 @@ export function ProfileHeader({ profile }: Props) {
             <View className="size-24 absolute -right-7 -bottom-1 shadow">
               <Image
                 style={{ flex: 1 }}
-                source={require("../../assets/images/character/initial.png")}
+                source={require("../../assets/images/character/training_woman/initial.png")}
                 contentFit="contain"
               />
             </View>

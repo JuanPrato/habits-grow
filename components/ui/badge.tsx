@@ -7,6 +7,7 @@ const badge = cva("py-2 px-3 rounded-3xl", {
     type: {
       primary: "bg-primary-200",
       info: "bg-gray-200",
+      phantom: "",
     },
     outline: {
       true: "border-2 border-gray-400",

@@ -91,7 +91,7 @@ export function Mascot({ scroll }: MascotProps) {
     <Animated.View className="h-[160px] z-10 shadow" style={[mascotStyle]}>
       <Image
         style={{ flex: 1 }}
-        source={require("../../assets/images/character/initial.png")}
+        source={require("../../assets/images/character/training_woman/initial.png")}
         contentFit="contain"
       />
     </Animated.View>
