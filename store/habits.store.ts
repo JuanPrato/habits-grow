@@ -1,10 +1,11 @@
+import { getHabits } from "@/api/habits.api";
 import { HABIT_CATEGORIES } from "@/constants/const";
 import { Habit, HabitType } from "@/constants/types";
 import { create } from "zustand";
 
 interface HabitStoreState {
   habits: Habit[];
-  updateHabits: (habits: Habit[]) => void;
+  updateHabits: (userId?: string) => Promise<void>;
   categories: HabitType[];
   habitsByCategory: Record<HabitType, Habit[]>;
   percentageComplete: number;
@@ -218,11 +219,13 @@ export const MOCK_HABITS: Habit[] = [
 
 export const useHabitStore = create<HabitStoreState>((set, get) => ({
   habits: [],
-  updateHabits(habits) {
+  async updateHabits(userId?: string) {
+    const h = userId ? await getHabits(userId) : MOCK_HABITS;
+
     set({
-      habits: habits,
-      habitsByCategory: getHabitsByCategory(habits),
-      percentageComplete: getPercentage(habits),
+      habits: h,
+      habitsByCategory: getHabitsByCategory(h),
+      percentageComplete: getPercentage(h),
     });
   },
   categories: Object.keys(HABIT_CATEGORIES) as HabitType[],

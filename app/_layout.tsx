@@ -1,29 +1,36 @@
 import "../global.css";
 
+import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from "react";
+import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { getHabits } from "@/api/habits.api";
 import { ThemeProvider } from "@/provider/theme.provider";
 import { useAuthStore } from "@/store/auth.store";
-import { MOCK_HABITS, useHabitStore } from "@/store/habits.store";
-import { Stack } from "expo-router";
-import { useEffect } from "react";
+import { useHabitStore } from "@/store/habits.store";
+
+LogBox.ignoreLogs(["var(--"])
+
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
 
   const user = useAuthStore(s => s.user);
   const loading = useAuthStore(s => s.loading);
-  const setHabits = useHabitStore(s => s.updateHabits)
+  const updateHabits = useHabitStore(s => s.updateHabits);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (loading) return;
-    if (user)
-      getHabits(user.id).then(habits => {
-        setHabits(habits);
-      });
-    else
-      setHabits(MOCK_HABITS);
+    updateHabits(user?.id).finally(() => setLoaded(true));
+
   }, [user, loading]);
+
+  useEffect(() => {
+    if (loaded)
+      SplashScreen.hide();
+  }, [loaded]);
 
   return (
     <ThemeProvider>
