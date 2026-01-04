@@ -5,8 +5,10 @@ import { Card } from "../ui/card";
 import { FlameIcon, HABIT_ICONS } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
+const DAYS = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
 type DayStat = {
-  day: string;
+  day: number;
   selected: boolean;
   completed?: boolean;
 };
@@ -57,7 +59,7 @@ export function WeeklyHabitStatsCard({
             </View>
 
             <Typography className="mt-1" type="info">
-              {day.day}
+              {DAYS[day.day]}
             </Typography>
           </View>
         ))}

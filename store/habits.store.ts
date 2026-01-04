@@ -4,6 +4,7 @@ import { create } from "zustand";
 
 interface HabitStoreState {
   habits: Habit[];
+  updateHabits: (habits: Habit[]) => void;
   categories: HabitType[];
   habitsByCategory: Record<HabitType, Habit[]>;
   percentageComplete: number;
@@ -12,7 +13,7 @@ interface HabitStoreState {
   toggleModal: (value?: boolean) => void;
 }
 
-const MOCK_HABITS: Habit[] = [
+export const MOCK_HABITS: Habit[] = [
   {
     id: "1",
     title: "Beber Agua",
@@ -24,13 +25,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "emerald",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: false, completed: false },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: false, completed: false },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: false, completed: false },
-      { day: "D", selected: false, completed: false },
+      { day: 0, selected: true, completed: true },
+      { day: 1, selected: false, completed: false },
+      { day: 2, selected: false, completed: false },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: false, completed: false },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: false, completed: false },
     ],
   },
   {
@@ -44,13 +45,13 @@ const MOCK_HABITS: Habit[] = [
     completed: true,
     color: "violet",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: true, completed: true },
-      { day: "J", selected: true, completed: true },
-      { day: "V", selected: true, completed: true },
-      { day: "S", selected: true, completed: true },
-      { day: "D", selected: true, completed: true },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: true, completed: true },
+      { day: 4, selected: true, completed: true },
+      { day: 5, selected: true, completed: true },
+      { day: 6, selected: true, completed: true },
+      { day: 7, selected: true, completed: true },
     ],
   },
   {
@@ -64,13 +65,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "sky",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: false, completed: false },
-      { day: "X", selected: true, completed: true },
-      { day: "J", selected: false, completed: false },
-      { day: "V", selected: true, completed: true },
-      { day: "S", selected: false, completed: false },
-      { day: "D", selected: true, completed: true },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: false, completed: false },
+      { day: 3, selected: true, completed: true },
+      { day: 4, selected: false, completed: false },
+      { day: 5, selected: true, completed: true },
+      { day: 6, selected: false, completed: false },
+      { day: 7, selected: true, completed: true },
     ],
   },
   {
@@ -84,13 +85,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "emerald",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: true, completed: false },
-      { day: "J", selected: true, completed: false },
-      { day: "V", selected: true, completed: true },
-      { day: "S", selected: false, completed: false },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: true, completed: false },
+      { day: 4, selected: true, completed: false },
+      { day: 5, selected: true, completed: true },
+      { day: 6, selected: false, completed: false },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -104,13 +105,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "violet",
     days: [
-      { day: "L", selected: false, completed: false },
-      { day: "M", selected: false, completed: false },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: false, completed: false },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: false, completed: false },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: false, completed: false },
+      { day: 2, selected: false, completed: false },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: false, completed: false },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: false, completed: false },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -124,13 +125,13 @@ const MOCK_HABITS: Habit[] = [
     completed: true,
     color: "amber",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: false, completed: false },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: false, completed: false },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: false, completed: false },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: false, completed: false },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: false, completed: false },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: false, completed: false },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -144,13 +145,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "emerald",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: true, completed: true },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: true, completed: true },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: true, completed: true },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: true, completed: true },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -164,13 +165,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "rose",
     days: [
-      { day: "L", selected: false, completed: false },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: true, completed: true },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: true, completed: true },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: false, completed: false },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: true, completed: true },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: true, completed: true },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -184,13 +185,13 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "sky",
     days: [
-      { day: "L", selected: true, completed: true },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: false, completed: false },
-      { day: "J", selected: true, completed: true },
-      { day: "V", selected: false, completed: false },
-      { day: "S", selected: true, completed: true },
-      { day: "D", selected: false, completed: false },
+      { day: 1, selected: true, completed: true },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: false, completed: false },
+      { day: 4, selected: true, completed: true },
+      { day: 5, selected: false, completed: false },
+      { day: 6, selected: true, completed: true },
+      { day: 7, selected: false, completed: false },
     ],
   },
   {
@@ -204,22 +205,29 @@ const MOCK_HABITS: Habit[] = [
     completed: false,
     color: "sky",
     days: [
-      { day: "L", selected: true, completed: false },
-      { day: "M", selected: true, completed: true },
-      { day: "X", selected: true, completed: false },
-      { day: "J", selected: true, completed: true },
-      { day: "V", selected: true, completed: true },
-      { day: "S", selected: true, completed: true },
-      { day: "D", selected: true, completed: true },
+      { day: 1, selected: true, completed: false },
+      { day: 2, selected: true, completed: true },
+      { day: 3, selected: true, completed: false },
+      { day: 4, selected: true, completed: true },
+      { day: 5, selected: true, completed: true },
+      { day: 6, selected: true, completed: true },
+      { day: 7, selected: true, completed: true },
     ],
   },
 ];
 
 export const useHabitStore = create<HabitStoreState>((set, get) => ({
-  habits: MOCK_HABITS,
+  habits: [],
+  updateHabits(habits) {
+    set({
+      habits: habits,
+      habitsByCategory: getHabitsByCategory(habits),
+      percentageComplete: getPercentage(habits),
+    });
+  },
   categories: Object.keys(HABIT_CATEGORIES) as HabitType[],
-  habitsByCategory: getHabitsByCategory(MOCK_HABITS),
-  percentageComplete: getPercentage(MOCK_HABITS),
+  habitsByCategory: getHabitsByCategory([]),
+  percentageComplete: getPercentage([]),
   modifyStatus(habitId, status) {
     const habit = get().habits.find((h) => h.id === habitId);
 
@@ -256,7 +264,7 @@ function getHabitsByCategory(habits: Habit[]) {
 
 function getPercentage(habits: Habit[]) {
   return (
-    (MOCK_HABITS.reduce((acc, i) => (i.completed ? acc + 1 : acc), 0) * 100) /
-    MOCK_HABITS.length
+    (habits.reduce((acc, i) => (i.completed ? acc + 1 : acc), 0) * 100) /
+    habits.length
   );
 }

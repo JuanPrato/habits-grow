@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      habit: {
+        Row: {
+          calendar: boolean
+          category: string
+          color: string
+          created_at: string
+          frequency: boolean[]
+          icon: string
+          id: string
+          notification: boolean
+          title: string
+          user_id: string
+        }
+        Insert: {
+          calendar?: boolean
+          category: string
+          color?: string
+          created_at?: string
+          frequency: boolean[]
+          icon: string
+          id?: string
+          notification?: boolean
+          title: string
+          user_id?: string
+        }
+        Update: {
+          calendar?: boolean
+          category?: string
+          color?: string
+          created_at?: string
+          frequency?: boolean[]
+          icon?: string
+          id?: string
+          notification?: boolean
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

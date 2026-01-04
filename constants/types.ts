@@ -15,7 +15,7 @@ export type HabitType =
 export type HabitIcon = `${HabitType}_${string}`;
 
 type HabitDay = {
-  day: string;
+  day: number;
   selected: boolean;
   completed?: boolean;
 };
