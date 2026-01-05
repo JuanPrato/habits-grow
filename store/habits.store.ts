@@ -1,259 +1,110 @@
-import { getHabits } from "@/api/habits.api";
+import {
+  createHabit,
+  getHabits,
+  getMonthDays,
+  getWeekDays,
+  updateHabit,
+} from "@/api/habits.api";
 import { HABIT_CATEGORIES } from "@/constants/const";
-import { Habit, HabitType } from "@/constants/types";
+import { Habit, HabitDay, HabitType } from "@/constants/types";
+import { NewHabitPayload } from "@/schemas/habit.schema";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface HabitStoreState {
   habits: Habit[];
-  updateHabits: (userId?: string) => Promise<void>;
+  days: Record<string, HabitDay[]>;
+  syncHabits: () => Promise<void>;
   categories: HabitType[];
-  habitsByCategory: Record<HabitType, Habit[]>;
   percentageComplete: number;
-  modifyStatus: (habitId: string, status: boolean) => void;
+  modifyStatus: (
+    habitId: string,
+    status: boolean,
+    auth?: boolean
+  ) => Promise<void>;
   modalOpen: boolean;
   toggleModal: (value?: boolean) => void;
+  addNewHabit: (payload: NewHabitPayload, userId: string) => Promise<void>;
+  getHabitWeek: (habit: Habit, userId: string) => Promise<HabitDay[]>;
+  getMonthStats: (
+    habits: Habit[]
+  ) => Promise<{ total: number; complete: number; percentage: number }>;
 }
 
-export const MOCK_HABITS: Habit[] = [
-  {
-    id: "1",
-    title: "Beber Agua",
-    category: "health",
-    icon: "health_hydration",
-    targetValue: 8,
-    currentValue: 3,
-    unit: "vasos",
-    completed: false,
-    color: "emerald",
-    days: [
-      { day: 0, selected: true, completed: true },
-      { day: 1, selected: false, completed: false },
-      { day: 2, selected: false, completed: false },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: false, completed: false },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "2",
-    title: "Meditación Matutina",
-    category: "mind",
-    icon: "mind_meditation",
-    targetValue: 1,
-    currentValue: 1,
-    unit: "sesión",
-    completed: true,
-    color: "violet",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: true, completed: true },
-      { day: 4, selected: true, completed: true },
-      { day: 5, selected: true, completed: true },
-      { day: 6, selected: true, completed: true },
-      { day: 7, selected: true, completed: true },
-    ],
-  },
-  {
-    id: "3",
-    title: "Lectura",
-    category: "growth",
-    icon: "growth_reading",
-    targetValue: 20,
-    currentValue: 10,
-    unit: "páginas",
-    completed: false,
-    color: "sky",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: false, completed: false },
-      { day: 3, selected: true, completed: true },
-      { day: 4, selected: false, completed: false },
-      { day: 5, selected: true, completed: true },
-      { day: 6, selected: false, completed: false },
-      { day: 7, selected: true, completed: true },
-    ],
-  },
-  {
-    id: "4",
-    title: "Ejercicio Diario",
-    category: "health",
-    icon: "health_exercise",
-    targetValue: 30,
-    currentValue: 0,
-    unit: "minutos",
-    completed: false,
-    color: "emerald",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: true, completed: false },
-      { day: 4, selected: true, completed: false },
-      { day: 5, selected: true, completed: true },
-      { day: 6, selected: false, completed: false },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "5",
-    title: "Escribir Diario",
-    category: "growth",
-    icon: "growth_writing",
-    targetValue: 1,
-    currentValue: 0,
-    unit: "entrada",
-    completed: false,
-    color: "violet",
-    days: [
-      { day: 1, selected: false, completed: false },
-      { day: 2, selected: false, completed: false },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: false, completed: false },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: false, completed: false },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "6",
-    title: "Limpiar Escritorio",
-    category: "life",
-    icon: "life_organization",
-    targetValue: 1,
-    currentValue: 1,
-    unit: "vez",
-    completed: true,
-    color: "amber",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: false, completed: false },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: false, completed: false },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: false, completed: false },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "7",
-    title: "Caminar 10k Pasos",
-    category: "health",
-    icon: "health_movement",
-    targetValue: 10000,
-    currentValue: 4500,
-    unit: "pasos",
-    completed: false,
-    color: "emerald",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: true, completed: true },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: true, completed: true },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "8",
-    title: "Sin Redes Sociales",
-    category: "productivity",
-    icon: "productivity_digital_detox",
-    targetValue: 60,
-    currentValue: 40,
-    unit: "minutos",
-    completed: false,
-    color: "rose",
-    days: [
-      { day: 1, selected: false, completed: false },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: true, completed: true },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: true, completed: true },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "9",
-    title: "Estudiar Código",
-    category: "growth",
-    icon: "growth_study",
-    targetValue: 2,
-    currentValue: 1,
-    unit: "horas",
-    completed: false,
-    color: "sky",
-    days: [
-      { day: 1, selected: true, completed: true },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: false, completed: false },
-      { day: 4, selected: true, completed: true },
-      { day: 5, selected: false, completed: false },
-      { day: 6, selected: true, completed: true },
-      { day: 7, selected: false, completed: false },
-    ],
-  },
-  {
-    id: "10",
-    title: "Dormir 8 Horas",
-    category: "health",
-    icon: "health_sleep",
-    targetValue: 8,
-    currentValue: 0,
-    unit: "horas",
-    completed: false,
-    color: "sky",
-    days: [
-      { day: 1, selected: true, completed: false },
-      { day: 2, selected: true, completed: true },
-      { day: 3, selected: true, completed: false },
-      { day: 4, selected: true, completed: true },
-      { day: 5, selected: true, completed: true },
-      { day: 6, selected: true, completed: true },
-      { day: 7, selected: true, completed: true },
-    ],
-  },
-];
+export const useHabitStore = create<HabitStoreState>()(
+  persist(
+    (set, get) => ({
+      habits: [],
+      days: {},
+      async syncHabits() {
+        const h = await getHabits();
 
-export const useHabitStore = create<HabitStoreState>((set, get) => ({
-  habits: [],
-  async updateHabits(userId?: string) {
-    const h = userId ? await getHabits(userId) : MOCK_HABITS;
+        set({
+          habits: h,
+          days: { ...get().days },
+          percentageComplete: getPercentage(h),
+        });
+      },
+      categories: Object.keys(HABIT_CATEGORIES) as HabitType[],
+      percentageComplete: getPercentage([]),
+      async modifyStatus(habitId, status) {
+        await updateHabit(habitId, status);
+        get().syncHabits();
+      },
+      modalOpen: false,
+      toggleModal(value?: boolean) {
+        set({
+          modalOpen: value ?? !get().modalOpen,
+        });
+      },
+      async addNewHabit(payload: NewHabitPayload, userId: string) {
+        await createHabit(payload);
 
-    set({
-      habits: h,
-      habitsByCategory: getHabitsByCategory(h),
-      percentageComplete: getPercentage(h),
-    });
-  },
-  categories: Object.keys(HABIT_CATEGORIES) as HabitType[],
-  habitsByCategory: getHabitsByCategory([]),
-  percentageComplete: getPercentage([]),
-  modifyStatus(habitId, status) {
-    const habit = get().habits.find((h) => h.id === habitId);
+        get().syncHabits();
+      },
+      async getHabitWeek(habit: Habit, userId: string) {
+        const cache = get().days[habit.id];
 
-    if (!habit) return;
-    habit.completed = status;
+        if (cache) return cache;
 
-    set({
-      habits: [...get().habits],
-      habitsByCategory: getHabitsByCategory(get().habits),
-      percentageComplete: getPercentage(get().habits),
-    });
-  },
-  modalOpen: false,
-  toggleModal(value?: boolean) {
-    set({
-      modalOpen: value ?? !get().modalOpen,
-    });
-  },
-}));
+        const days = await getWeekDays(habit);
 
-function getHabitsByCategory(habits: Habit[]) {
+        set({
+          days: { ...get().days, [habit.id]: days },
+        });
+
+        return days;
+      },
+      async getMonthStats(habits: Habit[]) {
+        const completed = await getMonthDays();
+        const total =
+          habits.reduce(
+            (acc, h) =>
+              acc + h.frequency.reduce((ac, f) => ac + (f ? 1 : 0), 0),
+            0
+          ) * 4;
+
+        return {
+          complete: completed ?? 0,
+          percentage: total === 0 ? 0 : (completed ?? 0) / (total ?? 1),
+          total,
+        };
+      },
+    }),
+    {
+      name: "habits-storage",
+      partialize: (state) => ({
+        habits: state.habits,
+        percentageComplete: state.percentageComplete,
+      }),
+    }
+  )
+);
+
+export function getHabitsByCategory(habits: Habit[], today?: boolean) {
   return habits.reduce(
     (acc, item) => {
+      if (today && !item.frequency[new Date().getDay()]) return acc;
       if (acc[item.category]) {
         acc[item.category].push(item);
         return acc;
@@ -266,8 +117,19 @@ function getHabitsByCategory(habits: Habit[]) {
 }
 
 function getPercentage(habits: Habit[]) {
+  const todayHabits = habits.filter((h) => h.frequency[new Date().getDay()]);
+
+  if (todayHabits.length === 0) return 0;
+
   return (
-    (habits.reduce((acc, i) => (i.completed ? acc + 1 : acc), 0) * 100) /
-    habits.length
+    (todayHabits.reduce((acc, i) => (i.completed ? acc + 1 : acc), 0) * 100) /
+    todayHabits.length
   );
+}
+
+function emptyDays(habit: Habit) {
+  return habit.frequency.map((s, i) => ({
+    day: i,
+    selected: s,
+  }));
 }

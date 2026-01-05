@@ -19,23 +19,19 @@ export function StatsHeader() {
     >
       <View className="pb-4 items-center flex-row">
         <View className="justify-center items-center gap-2">
-          <View className="size-32 shadow -translate-x-2">
+          <View className="size-32 shadow">
             <Image
               style={{ flex: 1 }}
               source={require("../../assets/images/character/training_woman/initial.png")}
               contentFit="contain"
             />
           </View>
-          <Typography
-            wight="semibold"
-            size="lg"
-            className="text-primary-700"
-          >
-            Nivel 3
+          <Typography wight="semibold" size="lg" className="text-primary-700">
+            Nivel 1
           </Typography>
         </View>
         <PetStats />
       </View>
     </LinearGradient>
-  )
+  );
 }

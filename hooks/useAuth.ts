@@ -30,6 +30,10 @@ export function useAuth() {
     }
   }
 
+  async function signInAnon() {
+    const res = await supabase.auth.signInAnonymously();
+  }
+
   async function signOut() {
     supabase.auth.signOut();
     setUser(undefined);
@@ -38,6 +42,7 @@ export function useAuth() {
   return {
     user,
     signIn,
+    signInAnon,
     signOut,
   };
 }

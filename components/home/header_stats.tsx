@@ -69,7 +69,7 @@ export function HeaderStats({ scroll }: Props) {
       </Animated.View>
       <ProgressBar initialProgress={percentage / 100} />
       <Typography type="info">
-        Progreso de hoy {percentage.toFixed(0) ?? "0"}%
+        Progreso de hoy {percentage?.toFixed(0) ?? "0"}%
       </Typography>
     </Animated.View>
   );

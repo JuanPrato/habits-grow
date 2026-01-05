@@ -1,6 +1,6 @@
 import { HABIT_CATEGORIES, HABIT_COLORS } from "@/constants/const";
 import { HabitIcon, HabitType } from "@/constants/types";
-import { useHabitStore } from "@/store/habits.store";
+import { getHabitsByCategory, useHabitStore } from "@/store/habits.store";
 import { useState } from "react";
 import { Modal, Pressable, SectionList, Text, View } from "react-native";
 import { Button } from "../ui/button";
@@ -18,11 +18,8 @@ type HabitDropdownProps = {
   onSelect: (habit: HabitOption) => void;
 };
 
-export function HabitDropdown({
-  value,
-  onSelect,
-}: HabitDropdownProps) {
-  const habits = useHabitStore(s => s.habitsByCategory);
+export function HabitDropdown({ value, onSelect }: HabitDropdownProps) {
+  const habits = useHabitStore((s) => s.habits);
   const [open, setOpen] = useState(false);
 
   const Icon = value ? HABIT_ICONS[value.icon] : null;
@@ -30,9 +27,19 @@ export function HabitDropdown({
   return (
     <>
       {/* Trigger */}
-      <Button full={false} size="sm" onPress={() => setOpen(true)} className="px-4">
-        <View pointerEvents="none" className="flex-row gap-2 justify-center items-center">
-          <Typography size="sm">{value ? value.title : "Seleccionar"}</Typography>
+      <Button
+        full={false}
+        size="sm"
+        onPress={() => setOpen(true)}
+        className="px-4"
+      >
+        <View
+          pointerEvents="none"
+          className="flex-row gap-2 justify-center items-center"
+        >
+          <Typography size="sm">
+            {value ? value.title : "Seleccionar"}
+          </Typography>
         </View>
       </Button>
 
@@ -51,15 +58,15 @@ export function HabitDropdown({
         <View className="max-h-[60%] bg-primary-50 rounded-t-3xl px-4 pt-4 pb-8">
           <View className="w-10 h-1 bg-gray-300 rounded-full self-center mb-4" />
 
-          <Text className="text-lg font-semibold mb-4">
-            Elegir hábito
-          </Text>
+          <Text className="text-lg font-semibold mb-4">Elegir hábito</Text>
 
           <SectionList
-            sections={Object.entries(habits).map(([key, value]) => ({
-              title: key as HabitType,
-              data: value,
-            }))}
+            sections={Object.entries(getHabitsByCategory(habits)).map(
+              ([key, value]) => ({
+                title: key as HabitType,
+                data: value,
+              })
+            )}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               const Icon = HABIT_ICONS[item.icon];
@@ -73,16 +80,17 @@ export function HabitDropdown({
                   className="flex-row items-center gap-3 py-4 border-b border-gray-300"
                 >
                   {!!Icon && <Icon color={color.icon} />}
-                  <Text className="text-base text-gray-800">
-                    {item.title}
-                  </Text>
+                  <Text className="text-base text-gray-800">{item.title}</Text>
                 </Pressable>
-              )
+              );
             }}
             renderSectionHeader={({ section }) => (
               <View className="py-2 bg-primary-50">
-                <Typography type="sectionTitle">{HABIT_CATEGORIES[section.title]}</Typography>
-              </View>)}
+                <Typography type="sectionTitle">
+                  {HABIT_CATEGORIES[section.title]}
+                </Typography>
+              </View>
+            )}
           />
         </View>
       </Modal>

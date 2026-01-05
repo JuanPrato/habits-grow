@@ -52,6 +52,15 @@ export const HABIT_CATEGORIES: Record<HabitType, string> = {
   social: "Social",
 } as const;
 
+export const HABIT_TYPES: HabitType[] = [
+  "growth",
+  "health",
+  "life",
+  "mind",
+  "productivity",
+  "social",
+] as const;
+
 // ICONS
 
 export const ICONS_SIZES = {

@@ -7,7 +7,7 @@
     "scheme": "habitsapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "icon": "./assets/images/app/splash-icon.png",
+    "icon": "./assets/images/splash-icon.png",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.juanprato.habitsapp",
@@ -28,8 +28,8 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#232323",
-          "image": "./assets/images/app/splash-icon.png",
+          "backgroundColor": "#fff",
+          "image": "./assets/images/splash-icon.png",
           "imageWidth": 200
         }
       ],

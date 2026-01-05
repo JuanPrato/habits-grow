@@ -14,13 +14,23 @@ export type HabitType =
 // Explicitly declare HabitIcon type to avoid circular reference
 export type HabitIcon = `${HabitType}_${string}`;
 
-type HabitDay = {
+export type HabitDay = {
   day: number;
   selected: boolean;
   completed?: boolean;
 };
 
 export type HabitFrequency = "daily" | "custom";
+
+export type HabitFrequencyArr = [
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+  boolean,
+];
 
 export type Habit = {
   id: string;
@@ -32,7 +42,7 @@ export type Habit = {
   unit: string;
   completed: boolean;
   color: HabitColor;
-  days: HabitDay[];
+  frequency: HabitFrequencyArr;
 };
 
 export type ColorInfo = {
@@ -53,4 +63,5 @@ export interface Profile {
   name: string;
   lastName?: string | null;
   picture?: string | null;
+  streak: number;
 }

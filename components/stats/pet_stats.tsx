@@ -1,13 +1,20 @@
+import { useHabitStore } from "@/store/habits.store";
+import { useUserStore } from "@/store/user.store";
 import { View } from "react-native";
 import { StatsCard } from "../profile/stat_card";
 import { CheckIcon, FlameIcon } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
 export function PetStats() {
+  const habits = useHabitStore((s) => s.habits);
+  const profile = useUserStore((s) => s.profile);
+
   return (
     <View className="p-2 relative flex-1 gap-2">
       <View>
-        <Typography type="headerTitle" size="xl">Tu compañero</Typography>
+        <Typography type="headerTitle" size="xl">
+          Tu compañero
+        </Typography>
         <Typography type="subtitle">Creciendo</Typography>
       </View>
       <StatsCard
@@ -19,12 +26,12 @@ export function PetStats() {
                 <CheckIcon />
               </View>
             ),
-            value: "4",
+            value: habits.length,
             label: "Hábitos\nactivos",
           },
           {
             icon: <FlameIcon size="lg" color="red.600" />,
-            value: "12",
+            value: profile?.streak ?? "0",
             label: "Racha\nde días",
           },
         ]}

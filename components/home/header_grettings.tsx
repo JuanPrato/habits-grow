@@ -61,7 +61,7 @@ export function Greetings({ scroll }: { scroll: SharedValue<number> }) {
     >
       <View>
         <Typography type="headerTitle" size="xl">
-          ¡Bienvenido{` ${profile?.name}`}!
+          ¡Bienvenido{`${profile?.name ? ` ${profile.name}` : ""}`}!
         </Typography>
         <AnimateTypography type="info" wight="semibold" style={subtitleStyles}>
           ¿Listo para progresar?

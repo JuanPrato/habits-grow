@@ -1,9 +1,11 @@
 // ICONS
 
+import { NewHabitPayload } from "@/schemas/habit.schema";
+import { randomUUID } from "expo-crypto";
 import { DefaultColors } from "tailwindcss/types/generated/colors";
 import { ICONS_SIZES } from "./const";
 import { theme, type Color, type ColorsObj } from "./theme";
-import type { IconProps } from "./types";
+import type { Habit, HabitFrequencyArr, IconProps } from "./types";
 
 export function getColor(
   color?: Color,
@@ -56,4 +58,25 @@ export function formatDate(date: Date) {
   const a = dateFormatter.formatToParts(date);
 
   return `${a[0].value} ${a[2].value.toUpperCase()}`;
+}
+
+// HABITS
+
+export function payloadToHabit(payload: NewHabitPayload): Habit {
+  const days = Array.from({ length: 7 });
+
+  return {
+    id: randomUUID(),
+    title: payload.title,
+    category: payload.category,
+    icon: payload.icon,
+    targetValue: payload.frequency === "daily" ? 7 : payload.days.length,
+    currentValue: 0,
+    unit: "",
+    completed: false,
+    color: payload.color,
+    frequency: (payload.frequency === "daily"
+      ? days.fill(true)
+      : days.map((_, i) => payload.days.includes(i))) as HabitFrequencyArr,
+  };
 }

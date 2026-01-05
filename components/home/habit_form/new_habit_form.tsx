@@ -1,8 +1,8 @@
-import { HabitColor, HabitFrequency, HabitIcon, HabitType } from "@/constants/types";
+import { HabitColor } from "@/constants/types";
+import { useHabitColor } from "@/hooks/useHabitColor";
+import { NewHabitPayload, newHabitSchema } from "@/schemas/habit.schema";
 import { useEffect, useState } from "react";
-import {
-  View
-} from "react-native";
+import { View } from "react-native";
 import { Button } from "../../ui/button";
 import { Typography } from "../../ui/typography";
 import { CategoriesInput } from "./categories_input";
@@ -12,45 +12,42 @@ import { IconInput } from "./icon_input";
 import { NameInput } from "./name_input";
 import { OptionsInput } from "./options_input";
 
-export type NewHabitPayload = {
-  title: string;
-  category: HabitType;
-  frequency: HabitFrequency;
-  days?: number[]; // 0 = domingo, 6 = sábado
-  color: HabitColor;
-  icon: HabitIcon;
-  notifications: boolean;
-  calendarSync: boolean;
-};
-
 export type NewHabitInputProps = {
   value: NewHabitPayload;
   onChange: (value: NewHabitPayload) => void;
-}
+};
 
 export function NewHabitForm({
-  onSubmit,
-  onColorChange
+  onSubmit: propsOnSubmit,
+  onColorChange,
 }: {
   onSubmit: (habit: NewHabitPayload) => void;
   onColorChange: (color: HabitColor) => void;
 }) {
-
   const [value, setValue] = useState<NewHabitPayload>({
-    color: "emerald"
+    category: "health",
+    color: "emerald",
+    notifications: false,
+    calendarSync: false,
   } as NewHabitPayload);
+  const [isValid, setIsValid] = useState(false);
+
+  const color = useHabitColor(value.color);
 
   useEffect(() => {
     onColorChange(value.color);
   }, [value.color]);
 
-  /*
-    const isValid =
-      title.trim().length > 0 &&
-      categoryId &&
-      (frequency === "daily" || days.length > 0);
-  */
-  const isValid = false;
+  useEffect(() => {
+    const parse = newHabitSchema.safeParse(value);
+    setIsValid(parse.success);
+  }, [value]);
+
+  function onSubmit() {
+    const parse = newHabitSchema.safeParse(value);
+
+    if (parse.success) propsOnSubmit(parse.data!);
+  }
 
   return (
     <View className="gap-4 pb-6 overflow-hidden">
@@ -70,24 +67,18 @@ export function NewHabitForm({
       <FrequencyInput value={value} onChange={(v) => setValue({ ...v })} />
 
       {/* Opciones */}
-      <OptionsInput />
+      <OptionsInput value={value} onChange={(v) => setValue({ ...v })} />
 
       {/* Submit */}
       <Button
-        disabled={!isValid}
-        onPress={() => { }
-          //onSubmit({
-          //title,
-          //categoryId,
-          //frequency,
-          //days: frequency === "custom" ? days : undefined,
-          //color: color || "blue",
-          //notifications,
-          //calendarSync,
-          //})
-        }
+        disabled={!isValid ? true : undefined}
+        onPress={() => onSubmit()}
+        className={color.bg}
       >
-        <Typography className="font-semibold text-base" color={!isValid ? "muted" : undefined}>
+        <Typography
+          className="font-semibold text-base"
+          color={!isValid ? "muted" : undefined}
+        >
           Crear hábito
         </Typography>
       </Button>

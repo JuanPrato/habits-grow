@@ -53,6 +53,38 @@ export type Database = {
         }
         Relationships: []
       }
+      habit_history: {
+        Row: {
+          completed: boolean
+          created_at: string
+          day: string
+          habit_id: string
+          user_id: string | null
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          day?: string
+          habit_id: string
+          user_id?: string | null
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          day?: string
+          habit_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "habit_history_habit_id_fkey"
+            columns: ["habit_id"]
+            isOneToOne: false
+            referencedRelation: "habit"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -60,6 +92,7 @@ export type Database = {
           last_name: string | null
           name: string
           picture: string | null
+          streak: number
         }
         Insert: {
           created_at?: string
@@ -67,6 +100,7 @@ export type Database = {
           last_name?: string | null
           name: string
           picture?: string | null
+          streak?: number
         }
         Update: {
           created_at?: string
@@ -74,6 +108,7 @@ export type Database = {
           last_name?: string | null
           name?: string
           picture?: string | null
+          streak?: number
         }
         Relationships: []
       }
