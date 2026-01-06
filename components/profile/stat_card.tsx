@@ -33,35 +33,32 @@ export function StatsCard({
 
   return (
     <Card className="flex-row">
-      {items.map((item, index) => {
-        console.log(item.value, typeof item.value);
-        return (
-          <View
-            key={index}
-            className={`${itemStyle} ${index < items.length - 1 ? "border-r border-primary-700/20" : ""} `}
-          >
-            {/* Icon */}
-            <View className="mb-2">{item.icon}</View>
-            <View className="items-center">
-              {/* Value */}
-              {item.value !== undefined && (
-                <View className="mb-1">
-                  {typeof item.value === "string" ||
-                  typeof item.value === "number" ? (
-                    <Typography wight="semibold" size="lg">
-                      {item.value}
-                    </Typography>
-                  ) : (
-                    item.value
-                  )}
-                </View>
-              )}
-              {/* Label */}
-              <Typography>{item.label}</Typography>
-            </View>
+      {items.map((item, index) => (
+        <View
+          key={index}
+          className={`${itemStyle} ${index < items.length - 1 ? "border-r border-primary-700/20" : ""} `}
+        >
+          {/* Icon */}
+          <View className="mb-2">{item.icon}</View>
+          <View className="items-center">
+            {/* Value */}
+            {item.value !== undefined && (
+              <View className="mb-1">
+                {typeof item.value === "string" ||
+                typeof item.value === "number" ? (
+                  <Typography wight="semibold" size="lg">
+                    {item.value}
+                  </Typography>
+                ) : (
+                  item.value
+                )}
+              </View>
+            )}
+            {/* Label */}
+            <Typography>{item.label}</Typography>
           </View>
-        );
-      })}
+        </View>
+      ))}
     </Card>
   );
 }
