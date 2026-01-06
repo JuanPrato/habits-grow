@@ -33,7 +33,7 @@ export function WeeklyHabitStatsCard({
 
   useEffect(() => {
     if (!selected) return;
-    getDays(selected, user?.id);
+    getDays(selected);
   }, [selected]);
 
   useEffect(() => {

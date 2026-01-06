@@ -8,7 +8,7 @@ import { Screen } from "../ui/screen";
 import { Typography } from "../ui/typography";
 
 export function LoginScreen() {
-  const { signInAnon } = useAuth();
+  const { signIn, signInAnon } = useAuth();
 
   return (
     <SafeAreaView className="flex-1 bg-primary-50">
@@ -38,7 +38,11 @@ export function LoginScreen() {
         </View>
 
         {/* CTA */}
-        <Button className="gap-4 bg-primary-300" size="lg">
+        <Button
+          className="gap-4 bg-primary-300"
+          size="lg"
+          onPress={() => signIn()}
+        >
           <Typography className="font-semibold text-base">
             Iniciar sesión
           </Typography>

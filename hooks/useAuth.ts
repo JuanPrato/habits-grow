@@ -5,6 +5,7 @@ import { openAuthSessionAsync } from "expo-web-browser";
 
 export function useAuth() {
   const user = useAuthStore((s) => s.user);
+  const loading = useAuthStore((s) => s.loading);
   const setUser = useAuthStore((s) => s.setUser);
   const redirectTo = Linking.createURL("profile");
 
@@ -41,6 +42,7 @@ export function useAuth() {
 
   return {
     user,
+    loading,
     signIn,
     signInAnon,
     signOut,

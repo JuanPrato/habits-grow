@@ -90,6 +90,7 @@ export type Database = {
           created_at: string
           id: string
           last_name: string | null
+          last_streak_check: string
           name: string
           picture: string | null
           streak: number
@@ -98,6 +99,7 @@ export type Database = {
           created_at?: string
           id?: string
           last_name?: string | null
+          last_streak_check: string
           name: string
           picture?: string | null
           streak?: number
@@ -106,6 +108,7 @@ export type Database = {
           created_at?: string
           id?: string
           last_name?: string | null
+          last_streak_check?: string
           name?: string
           picture?: string | null
           streak?: number

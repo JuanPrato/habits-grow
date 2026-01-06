@@ -23,7 +23,7 @@ export function AddHabitSheet({ onClose }: AddHabitSheetProps) {
   const addHabit = useHabitStore((s) => s.addNewHabit);
 
   function onSubmit(payload: NewHabitPayload) {
-    addHabit(payload, user?.id);
+    addHabit(payload);
     sheetRef.current?.close();
   }
 

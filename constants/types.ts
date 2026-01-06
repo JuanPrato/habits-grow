@@ -1,4 +1,5 @@
 import { ThemeName } from "@/store/theme.store";
+import { Dayjs } from "dayjs";
 import { Color } from "./theme";
 
 export type HabitColor = ThemeName;
@@ -15,6 +16,7 @@ export type HabitType =
 export type HabitIcon = `${HabitType}_${string}`;
 
 export type HabitDay = {
+  habitId: string;
   day: number;
   selected: boolean;
   completed?: boolean;
@@ -43,6 +45,7 @@ export type Habit = {
   completed: boolean;
   color: HabitColor;
   frequency: HabitFrequencyArr;
+  createdAt: Dayjs;
 };
 
 export type ColorInfo = {

@@ -11,24 +11,34 @@ import { NewHabitPayload } from "@/schemas/habit.schema";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+type MonthStats = {
+  total: number;
+  complete: number;
+  percentage: number;
+};
+
 interface HabitStoreState {
   habits: Habit[];
   days: Record<string, HabitDay[]>;
   syncHabits: () => Promise<void>;
   categories: HabitType[];
   percentageComplete: number;
-  modifyStatus: (
-    habitId: string,
-    status: boolean,
-    auth?: boolean
-  ) => Promise<void>;
-  modalOpen: boolean;
-  toggleModal: (value?: boolean) => void;
-  addNewHabit: (payload: NewHabitPayload, userId: string) => Promise<void>;
-  getHabitWeek: (habit: Habit, userId: string) => Promise<HabitDay[]>;
-  getMonthStats: (
-    habits: Habit[]
-  ) => Promise<{ total: number; complete: number; percentage: number }>;
+  modifyStatus: (habitId: string, status: boolean) => Promise<void>;
+  addNewHabit: (payload: NewHabitPayload) => Promise<void>;
+  getHabitWeek: (habit: Habit) => Promise<HabitDay[]>;
+  getMonthStats: (habits: Habit[]) => Promise<MonthStats>;
+}
+
+const getTodayIndex = () => new Date().getDay();
+
+function calculatePercentage(habits: Habit[]): number {
+  const todayIndex = getTodayIndex();
+  const todayHabits = habits.filter((h) => h.frequency[todayIndex]);
+
+  if (todayHabits.length === 0) return 0;
+
+  const completedCount = todayHabits.filter((h) => h.completed).length;
+  return (completedCount * 100) / todayHabits.length;
 }
 
 export const useHabitStore = create<HabitStoreState>()(
@@ -36,57 +46,55 @@ export const useHabitStore = create<HabitStoreState>()(
     (set, get) => ({
       habits: [],
       days: {},
-      async syncHabits() {
-        const h = await getHabits();
+      categories: Object.keys(HABIT_CATEGORIES) as HabitType[],
+      percentageComplete: 0,
 
+      async syncHabits() {
+        const fetchedHabits = await getHabits();
         set({
-          habits: h,
+          habits: fetchedHabits,
           days: { ...get().days },
-          percentageComplete: getPercentage(h),
+          percentageComplete: calculatePercentage(fetchedHabits),
         });
       },
-      categories: Object.keys(HABIT_CATEGORIES) as HabitType[],
-      percentageComplete: getPercentage([]),
+
       async modifyStatus(habitId, status) {
         await updateHabit(habitId, status);
         get().syncHabits();
       },
-      modalOpen: false,
-      toggleModal(value?: boolean) {
-        set({
-          modalOpen: value ?? !get().modalOpen,
-        });
-      },
-      async addNewHabit(payload: NewHabitPayload, userId: string) {
-        await createHabit(payload);
 
+      async addNewHabit(payload) {
+        await createHabit(payload);
         get().syncHabits();
       },
-      async getHabitWeek(habit: Habit, userId: string) {
-        const cache = get().days[habit.id];
 
-        if (cache) return cache;
+      async getHabitWeek(habit) {
+        const cached = get().days[habit.id];
+        if (cached) return cached;
 
         const days = await getWeekDays(habit);
-
         set({
           days: { ...get().days, [habit.id]: days },
         });
-
         return days;
       },
-      async getMonthStats(habits: Habit[]) {
+
+      async getMonthStats(habits) {
         const completed = await getMonthDays();
         const total =
           habits.reduce(
             (acc, h) =>
-              acc + h.frequency.reduce((ac, f) => ac + (f ? 1 : 0), 0),
+              acc +
+              h.frequency.reduce(
+                (freqAcc, freq) => freqAcc + (freq ? 1 : 0),
+                0
+              ),
             0
           ) * 4;
 
         return {
           complete: completed ?? 0,
-          percentage: total === 0 ? 0 : (completed ?? 0) / (total ?? 1),
+          percentage: total === 0 ? 0 : (completed ?? 0) / (total || 1),
           total,
         };
       },
@@ -101,35 +109,19 @@ export const useHabitStore = create<HabitStoreState>()(
   )
 );
 
+/**
+ * Agrupa hábitos por categoría.
+ * Si today es true, solo incluye los asignados al día actual.
+ */
 export function getHabitsByCategory(habits: Habit[], today?: boolean) {
+  const todayIndex = getTodayIndex();
   return habits.reduce(
-    (acc, item) => {
-      if (today && !item.frequency[new Date().getDay()]) return acc;
-      if (acc[item.category]) {
-        acc[item.category].push(item);
-        return acc;
-      }
-      acc[item.category] = [item];
+    (acc, habit) => {
+      if (today && !habit.frequency[todayIndex]) return acc;
+      if (!acc[habit.category]) acc[habit.category] = [];
+      acc[habit.category].push(habit);
       return acc;
     },
     {} as Record<HabitType, Habit[]>
   );
-}
-
-function getPercentage(habits: Habit[]) {
-  const todayHabits = habits.filter((h) => h.frequency[new Date().getDay()]);
-
-  if (todayHabits.length === 0) return 0;
-
-  return (
-    (todayHabits.reduce((acc, i) => (i.completed ? acc + 1 : acc), 0) * 100) /
-    todayHabits.length
-  );
-}
-
-function emptyDays(habit: Habit) {
-  return habit.frequency.map((s, i) => ({
-    day: i,
-    selected: s,
-  }));
 }

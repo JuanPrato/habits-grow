@@ -1,6 +1,7 @@
 // ICONS
 
 import { NewHabitPayload } from "@/schemas/habit.schema";
+import dayjs, { Dayjs } from "dayjs";
 import { randomUUID } from "expo-crypto";
 import { DefaultColors } from "tailwindcss/types/generated/colors";
 import { ICONS_SIZES } from "./const";
@@ -58,6 +59,10 @@ export function formatDate(date: Date) {
   const a = dateFormatter.formatToParts(date);
 
   return `${a[0].value} ${a[2].value.toUpperCase()}`;
+}
+
+export function getDate(day?: Dayjs) {
+  return (day ?? dayjs()).format("YYYY-MM-DD");
 }
 
 // HABITS

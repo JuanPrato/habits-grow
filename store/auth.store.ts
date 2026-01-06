@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => ({
       return;
     }
 
-    useUserStore.getState().setProfile(user);
+    useUserStore.getState().setProfile();
 
     set({
       user,

@@ -4,13 +4,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AddHabitSheet } from "@/components/home/add_habit_sheet";
 import { HomeIcon, ProfileIcon, StatsIcon } from "@/components/ui/icon";
 import { theme } from "@/constants/theme";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/auth.store";
 import { useHabitStore } from "@/store/habits.store";
+import { useModalStore } from "@/store/modal.store";
+import { useUserStore } from "@/store/user.store";
+import { useEffect } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function TabsLayout() {
-  const openModal = useHabitStore((s) => s.modalOpen);
-  const toggleModal = useHabitStore((s) => s.toggleModal);
+  const openModal = useModalStore((s) => s.createHabit);
+  const toggleModal = useModalStore((s) => s.setState);
+
+  const { user } = useAuth();
+  const loading = useAuthStore((s) => s.loading);
+  const checkStreak = useUserStore((s) => s.checkCurrentStreak);
+  const updateHabits = useHabitStore((s) => s.syncHabits);
+
+  useEffect(() => {
+    if (loading || !user) return;
+    updateHabits().then(() => {
+      checkStreak();
+    });
+  }, [user, loading]);
 
   return (
     <GestureHandlerRootView className="flex-1" style={{ flex: 1 }}>
@@ -68,7 +85,9 @@ export default function TabsLayout() {
             />
           </Tabs>
         </View>
-        {openModal && <AddHabitSheet onClose={() => toggleModal(false)} />}
+        {openModal && (
+          <AddHabitSheet onClose={() => toggleModal("createHabit", false)} />
+        )}
       </SafeAreaView>
     </GestureHandlerRootView>
   );

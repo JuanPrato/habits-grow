@@ -1,4 +1,5 @@
 import { Profile } from "@/constants/types";
+import { getDate } from "@/constants/utils";
 import { supabase } from "@/lib/supabase";
 
 export async function getProfile(): Promise<Profile | undefined> {
@@ -6,12 +7,9 @@ export async function getProfile(): Promise<Profile | undefined> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const res = await supabase
-    .from("profiles")
-    .select()
-    .eq("user_id", user.id)
-    .single();
+  const res = await supabase.from("profiles").select().single();
 
+  if (res.error) console.error("profile:select", res.error);
   if (!res.data) return;
 
   return {
@@ -33,5 +31,6 @@ export async function createProfile() {
     id: user.id,
     name: user.user_metadata?.name ?? "Invitado",
     picture: user.user_metadata?.picture,
+    last_streak_check: getDate(),
   });
 }

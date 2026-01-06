@@ -1,4 +1,4 @@
-import { useHabitStore } from "@/store/habits.store";
+import { useModalStore } from "@/store/modal.store";
 import { Pressable } from "react-native";
 import Animated, {
   SharedValue,
@@ -17,7 +17,7 @@ type Props = {
 export function FloatingActionButton({ scroll }: Props) {
   const insets = useSafeAreaInsets();
   const visible = useSharedValue(1);
-  const toggleModal = useHabitStore((s) => s.toggleModal);
+  const toggleModal = useModalStore((s) => s.setState);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -66,7 +66,7 @@ export function FloatingActionButton({ scroll }: Props) {
         ]}
       >
         <Pressable
-          onPress={() => toggleModal(true)}
+          onPress={() => toggleModal("createHabit", true)}
           className="size-20 rounded-full bg-primary-300 items-center justify-center shadow-lg"
         >
           <AddIcon color="primary.800" />
