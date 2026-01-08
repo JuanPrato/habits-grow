@@ -1,10 +1,10 @@
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useMemo, useRef, useState } from "react";
+
 import { HabitColor } from "@/constants/types";
-import { useAuth } from "@/hooks/useAuth";
 import { useHabitColor } from "@/hooks/useHabitColor";
 import { NewHabitPayload } from "@/schemas/habit.schema";
 import { useHabitStore } from "@/store/habits.store";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useMemo, useRef, useState } from "react";
 import { NewHabitForm } from "./habit_form/new_habit_form";
 
 type AddHabitSheetProps = {
@@ -12,11 +12,11 @@ type AddHabitSheetProps = {
 };
 
 export function AddHabitSheet({ onClose }: AddHabitSheetProps) {
-  const { user } = useAuth();
   const sheetRef = useRef<BottomSheet>(null);
 
   const snapPoints = useMemo(() => ["70%"], []);
   const [selectedColor, setSelectedColor] = useState<HabitColor>("emerald");
+  const [enabledPan, setEnabledPan] = useState(false);
 
   const color = useHabitColor(selectedColor);
 
@@ -30,14 +30,16 @@ export function AddHabitSheet({ onClose }: AddHabitSheetProps) {
   return (
     <BottomSheet
       ref={sheetRef}
+      index={0}
       snapPoints={snapPoints}
-      index={1}
       onClose={onClose}
       keyboardBehavior="interactive"
-      enablePanDownToClose={true}
       containerStyle={{ backgroundColor: "rgba(0,0,0,0.4)" }}
       backgroundStyle={{ backgroundColor: color.hex }}
-      onChange={(i) => i === 0 && sheetRef.current?.close()}
+      enableDynamicSizing={false}
+      enablePanDownToClose={true}
+      enableContentPanningGesture={false}
+      enableHandlePanningGesture
     >
       <BottomSheetScrollView className="px-6 py-4 flex-1">
         {/* Formulario */}

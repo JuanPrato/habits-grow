@@ -72,10 +72,12 @@ export async function updateHabit(habitId: string, completed: boolean = true) {
 }
 
 export async function createHabit(payload: NewHabitPayload) {
-  const freq: boolean[] = Array(7).fill(false);
-  payload.days.forEach((dayIndex) => {
-    freq[dayIndex] = true;
-  });
+  const freq: boolean[] = Array(7).fill(payload.frequency === "daily");
+
+  if (payload.frequency === "custom")
+    payload.days.forEach((dayIndex) => {
+      freq[dayIndex] = true;
+    });
 
   const res = await supabase.from("habit").insert({
     title: payload.title,

@@ -18,7 +18,9 @@ export function useAuth() {
       },
     });
 
-    const res = await openAuthSessionAsync(resp.data.url!);
+    const res = await openAuthSessionAsync(resp.data.url!, redirectTo, {
+      showInRecents: true,
+    });
 
     if (res.type === "success") {
       const urlParams = new URLSearchParams(res.url.split("#")[1]);

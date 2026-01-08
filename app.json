@@ -33,8 +33,15 @@
           "imageWidth": 200
         }
       ],
+      [
+        "expo-web-browser", 
+        {
+          "experimentalLauncherActivity": true
+        }
+      ],
       "expo-font",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,

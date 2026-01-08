@@ -1,17 +1,21 @@
-import { SUPABASE_PUBLIC_KEY, SUPABASE_URL } from "@/constants/const";
 import { Database } from "@/database.types";
 import { createClient } from "@supabase/supabase-js";
-import "expo-sqlite/localStorage/install";
+import * as SecureStore from "expo-secure-store";
 
-export const supabase = createClient<Database>(
-  SUPABASE_URL,
-  SUPABASE_PUBLIC_KEY,
-  {
-    auth: {
-      storage: localStorage,
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: false,
-    },
-  }
-);
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLIC_KEY!;
+
+const ExpoSecureStoreAdapter = {
+  getItem: (key: string) => SecureStore.getItemAsync(key),
+  setItem: (key: string, value: string) => SecureStore.setItemAsync(key, value),
+  removeItem: (key: string) => SecureStore.deleteItemAsync(key),
+};
+
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    storage: ExpoSecureStoreAdapter, // 🔴 ESTO ES CLAVE
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: false, // 🔴 MOBILE = false
+  },
+});

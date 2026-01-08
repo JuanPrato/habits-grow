@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { maybeCompleteAuthSession } from "expo-web-browser";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -6,6 +7,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "../ui/button";
 import { Screen } from "../ui/screen";
 import { Typography } from "../ui/typography";
+
+maybeCompleteAuthSession();
 
 export function LoginScreen() {
   const { signIn, signInAnon } = useAuth();

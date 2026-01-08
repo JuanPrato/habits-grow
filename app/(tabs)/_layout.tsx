@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AddHabitSheet } from "@/components/home/add_habit_sheet";
+import { LevelUpOverlay } from "@/components/home/level_up";
 import { HomeIcon, ProfileIcon, StatsIcon } from "@/components/ui/icon";
 import { theme } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,6 +16,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function TabsLayout() {
   const openModal = useModalStore((s) => s.createHabit);
+  const levelUp = useModalStore((s) => s.levelUp);
   const toggleModal = useModalStore((s) => s.setState);
 
   const { user } = useAuth();
@@ -88,6 +90,7 @@ export default function TabsLayout() {
         {openModal && (
           <AddHabitSheet onClose={() => toggleModal("createHabit", false)} />
         )}
+        {levelUp && <LevelUpOverlay />}
       </SafeAreaView>
     </GestureHandlerRootView>
   );

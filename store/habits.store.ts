@@ -9,7 +9,8 @@ import { HABIT_CATEGORIES } from "@/constants/const";
 import { Habit, HabitDay, HabitType } from "@/constants/types";
 import { NewHabitPayload } from "@/schemas/habit.schema";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { zustandStorage } from "./mmkv.middleware";
 
 type MonthStats = {
   total: number;
@@ -18,11 +19,11 @@ type MonthStats = {
 };
 
 interface HabitStoreState {
+  categories: HabitType[];
   habits: Habit[];
   days: Record<string, HabitDay[]>;
-  syncHabits: () => Promise<void>;
-  categories: HabitType[];
   percentageComplete: number;
+  syncHabits: () => Promise<void>;
   modifyStatus: (habitId: string, status: boolean) => Promise<void>;
   addNewHabit: (payload: NewHabitPayload) => Promise<void>;
   getHabitWeek: (habit: Habit) => Promise<HabitDay[]>;
@@ -105,6 +106,7 @@ export const useHabitStore = create<HabitStoreState>()(
         habits: state.habits,
         percentageComplete: state.percentageComplete,
       }),
+      storage: createJSONStorage(() => zustandStorage),
     }
   )
 );
