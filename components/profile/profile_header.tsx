@@ -2,8 +2,8 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 
-import { theme } from "@/constants/theme";
 import { Profile } from "@/constants/types";
+import { useThemeStore } from "@/store/theme.store";
 import { FlameIcon, ProfileIcon } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
@@ -12,6 +12,8 @@ interface Props {
 }
 
 export function ProfileHeader({ profile }: Props) {
+  const theme = useThemeStore((s) => s.theme);
+
   return (
     <View className="overflow-hidden mb-4">
       <LinearGradient

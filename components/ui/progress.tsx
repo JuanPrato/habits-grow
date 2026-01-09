@@ -1,4 +1,3 @@
-import { theme } from "@/constants/theme";
 import { cva, VariantProps } from "class-variance-authority";
 import { useEffect } from "react";
 import { View } from "react-native";
@@ -8,6 +7,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { useThemeStore } from "@/store/theme.store";
 import Svg, { Circle } from "react-native-svg";
 import { Typography } from "./typography";
 
@@ -28,8 +28,12 @@ const progress = cva("w-full bg-primary-900 rounded-2xl overflow-hidden", {
   },
 });
 
-export function ProgressBar({ initialProgress, size }:
-  VariantProps<typeof progress> & ProgressBarProps) {
+export function ProgressBar({
+  initialProgress,
+  size,
+}: VariantProps<typeof progress> & ProgressBarProps) {
+  const theme = useThemeStore((s) => s.theme);
+
   const progressValue = useSharedValue(0);
 
   const progressStyle = progress({ size });
@@ -41,12 +45,11 @@ export function ProgressBar({ initialProgress, size }:
   }, [initialProgress]);
 
   const animatedStyle = useAnimatedStyle(() => {
-
     const width = (progressValue.value ?? 0) * 100;
 
-    return ({
+    return {
       width: !!width ? `${width}%` : "0%",
-    });
+    };
   });
 
   return (
@@ -72,10 +75,12 @@ export function ProgressDonut({
   value,
   size = 48,
   strokeWidth = 6,
-  color = theme.colors.primary[600],
-  backgroundColor = theme.colors.gray[200],
-  textSize = "xs"
+  color,
+  backgroundColor,
+  textSize = "xs",
 }: ProgressDonutProps) {
+  const theme = useThemeStore((s) => s.theme);
+
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const progress = circumference * (1 - value);
@@ -85,7 +90,7 @@ export function ProgressDonut({
       <Svg width={size} height={size}>
         {/* Fondo */}
         <Circle
-          stroke={backgroundColor}
+          stroke={backgroundColor ?? theme.colors.gray[200]}
           fill="none"
           cx={size / 2}
           cy={size / 2}
@@ -95,7 +100,7 @@ export function ProgressDonut({
 
         {/* Progreso */}
         <Circle
-          stroke={color}
+          stroke={color ?? theme.colors.primary[600]}
           fill="none"
           cx={size / 2}
           cy={size / 2}

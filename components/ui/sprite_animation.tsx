@@ -1,5 +1,6 @@
+import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 
 type SpriteAnimationProps = {
   source: any;
@@ -7,6 +8,7 @@ type SpriteAnimationProps = {
   frameHeight: number;
   frames: number;
   fps?: number;
+  scale?: number;
 };
 
 export function SpriteAnimation({
@@ -15,6 +17,7 @@ export function SpriteAnimation({
   frameHeight,
   frames,
   fps = 6,
+  scale = 1,
 }: SpriteAnimationProps) {
   const [frame, setFrame] = useState(0);
 
@@ -30,22 +33,27 @@ export function SpriteAnimation({
     return () => clearInterval(interval);
   }, [frames, fps, source]);
 
+  // Establece aspectRatio y height/width por flexibilidad de escalado
   return (
     <View
       style={{
-        width: frameWidth,
-        height: frameHeight,
         overflow: "hidden",
+        aspectRatio: frameWidth / frameHeight, // Mantener la proporción original
+        maxHeight: frameHeight * scale,
       }}
     >
       <Image
         source={source}
         style={{
-          width: frameWidth * frames,
-          height: frameHeight,
-          transform: [{ translateX: -frame * frameWidth }],
+          width: frameWidth * frames * scale,
+          height: frameHeight * scale,
+          transform: [
+            {
+              translateX: -frame * (frameWidth * scale),
+            },
+          ],
         }}
-        resizeMode="contain"
+        contentFit={"contain"}
       />
     </View>
   );

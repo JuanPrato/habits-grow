@@ -22,6 +22,7 @@ module.exports = {
           900: "var(--color-primary-900)",
           950: "var(--color-primary-950)",
         },
+        google: "#F2F2F2"
       },
     },
   },

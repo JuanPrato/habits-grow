@@ -4,11 +4,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AddHabitSheet } from "@/components/home/add_habit_sheet";
 import { LevelUpOverlay } from "@/components/home/level_up";
 import { HomeIcon, ProfileIcon, StatsIcon } from "@/components/ui/icon";
-import { theme } from "@/constants/theme";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/store/auth.store";
 import { useHabitStore } from "@/store/habits.store";
 import { useModalStore } from "@/store/modal.store";
+import { useThemeStore } from "@/store/theme.store";
 import { useUserStore } from "@/store/user.store";
 import { useEffect } from "react";
 import { View } from "react-native";
@@ -18,6 +18,7 @@ export default function TabsLayout() {
   const openModal = useModalStore((s) => s.createHabit);
   const levelUp = useModalStore((s) => s.levelUp);
   const toggleModal = useModalStore((s) => s.setState);
+  const theme = useThemeStore((s) => s.theme);
 
   const { user } = useAuth();
   const loading = useAuthStore((s) => s.loading);

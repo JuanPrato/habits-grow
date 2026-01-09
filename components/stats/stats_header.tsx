@@ -2,11 +2,13 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 
-import { theme } from "@/constants/theme";
+import { useThemeStore } from "@/store/theme.store";
 import { Typography } from "../ui/typography";
 import { PetStats } from "./pet_stats";
 
 export function StatsHeader() {
+  const theme = useThemeStore((s) => s.theme);
+
   return (
     <LinearGradient
       colors={[

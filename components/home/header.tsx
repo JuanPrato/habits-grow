@@ -12,12 +12,14 @@ import {
   HEADER_MAX_HEIGHT,
   HEADER_MIN_HEIGHT,
 } from "@/constants/const";
-import { theme } from "@/constants/theme";
+import { useThemeStore } from "@/store/theme.store";
 import { Greetings } from "./header_grettings";
 import { HeaderStats } from "./header_stats";
 import { Mascot } from "./mascot";
 
 export function Header({ scroll }: { scroll: SharedValue<number> }) {
+  const theme = useThemeStore((s) => s.theme);
+
   const animatedStyles = useAnimatedStyle(() => {
     const height = interpolate(
       scroll.value,
@@ -51,7 +53,7 @@ export function Header({ scroll }: { scroll: SharedValue<number> }) {
           theme.colors.primary[200],
           theme.colors.primary[50],
         ]}
-        locations={[0.05, .5, 0.9, 1]}
+        locations={[0.05, 0.5, 0.9, 1]}
         style={{ flex: 1 }}
       >
         <Animated.View className={"flex-1 p-4"} style={partsStyles}>

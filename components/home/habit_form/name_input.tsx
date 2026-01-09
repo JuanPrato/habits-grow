@@ -1,10 +1,11 @@
 import { Typography } from "@/components/ui/typography";
-import { theme } from "@/constants/theme";
 import { useHabitColor } from "@/hooks/useHabitColor";
+import { useThemeStore } from "@/store/theme.store";
 import { TextInput, View } from "react-native";
 import { NewHabitInputProps } from "./new_habit_form";
 
 export function NameInput(props: NewHabitInputProps) {
+  const theme = useThemeStore((s) => s.theme);
   const color = useHabitColor(props.value.color ?? "emerald");
 
   return (

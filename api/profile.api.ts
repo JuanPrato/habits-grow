@@ -7,17 +7,20 @@ export async function getProfile(): Promise<Profile | undefined> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return;
-  const res = await supabase.from("profiles").select().single();
+  const res = await supabase.from("profiles").select();
 
   if (res.error) console.error("profile:select", res.error);
+  if (res.count === 0) return;
   if (!res.data) return;
 
+  const data = res.data[0];
+
   return {
-    id: res.data.id,
-    name: res.data.name,
-    lastName: res.data.last_name,
-    picture: res.data.picture,
-    streak: res.data.streak,
+    id: data.id,
+    name: data.name,
+    lastName: data.last_name,
+    picture: data.picture,
+    streak: data.streak,
   };
 }
 

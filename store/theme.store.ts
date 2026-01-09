@@ -1,28 +1,37 @@
-import { theme } from "@/constants/theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { theme as themeT } from "@/constants/theme";
 import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { zustandStorage } from "./mmkv.middleware";
 
 export type ThemeName = "emerald" | "sky" | "violet" | "rose" | "amber";
 
 type ThemeStoreState = {
   themeName: ThemeName;
+  theme: typeof themeT;
   setTheme: (t: ThemeName) => void;
 };
 
-export const useThemeStore = create<ThemeStoreState>((set, get) => ({
+export const useThemeStore = create<ThemeStoreState>()(persist((set, get) => ({
   themeName: "emerald",
-  theme: theme,
-  async setTheme(t) {
-    await AsyncStorage.setItem("theme", t);
-    theme.colors.primary = theme.colors[
-      (t as keyof typeof theme.colors) ?? "emerald"
+  theme: (() => {
+    themeT.colors.primary = themeT.colors[get()?.themeName ?? "emerald"];
+    return themeT;
+  })(),
+  setTheme(t) {
+    themeT.colors.primary = themeT.colors[
+      (t as keyof typeof themeT.colors) ?? "emerald"
     ] as any;
     set({
       themeName: t,
+      theme: themeT,
     });
   },
+}), {
+  name: "theme",
+  partialize: (state) => ({
+    themeName: state.themeName
+  }),
+  storage: createJSONStorage(() => zustandStorage),
 }));
 
-AsyncStorage.getItem("theme", (error, data) => {
-  useThemeStore.getState().setTheme((data as any) ?? "emerald");
-});
+useThemeStore.getState().setTheme(useThemeStore.getState().themeName);

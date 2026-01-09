@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "../ui/button";
 import { Screen } from "../ui/screen";
-import { Typography } from "../ui/typography";
+import { GoogleButton } from "./google.button";
 
 maybeCompleteAuthSession();
 
@@ -17,7 +17,7 @@ export function LoginScreen() {
     <SafeAreaView className="flex-1 bg-primary-50">
       <Screen center>
         {/* Logo / Hero */}
-        <View className="items-center mb-12">
+        <View className="items-center mb-8">
           <View className="size-24 rounded-3xl bg-primary-soft items-center justify-center mb-6">
             <Image
               style={{
@@ -40,26 +40,19 @@ export function LoginScreen() {
           </Text>
         </View>
 
-        {/* CTA */}
-        <Button
-          className="gap-4 bg-primary-300"
-          size="lg"
-          onPress={() => signIn()}
-        >
-          <Typography className="font-semibold text-base">
-            Iniciar sesión
-          </Typography>
-        </Button>
+        <View className="gap-4">
+          {/* CTA */}
+          <GoogleButton onPress={() => signIn()} />
 
-        {/* Opcional: login anónimo / guest */}
-        <Button
-          onPress={() => {
-            signInAnon();
-          }}
-        >
-          <Text className="text-gray-500">Ingresa como anónimo</Text>
-        </Button>
-
+          {/* Opcional: login anónimo / guest */}
+          <Button
+            onPress={() => {
+              signInAnon();
+            }}
+          >
+            <Text className="text-gray-500">Ingresa como anónimo</Text>
+          </Button>
+        </View>
         {/* Footer */}
         <View className="justify-end pb-6">
           <Text className="text-xs text-gray-400 text-center">

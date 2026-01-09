@@ -22,6 +22,8 @@ export default function RootLayout() {
     }
   }, [loading]);
 
+  if (loading) return;
+
   return (
     <ThemeProvider>
       <SafeAreaProvider>

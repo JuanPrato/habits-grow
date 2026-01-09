@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 
 import { HEADER_COLLAPSE_DISTANCE } from "@/constants/const";
@@ -25,8 +25,8 @@ const ASSETS = {
   celebrating: {
     source: require("../../assets/images/character/training_woman/celebrating.png"),
     frames: 1,
-    fps: 1
-  }
+    fps: 1,
+  },
 } as const;
 
 interface MascotProps {
@@ -53,7 +53,7 @@ export function Mascot({ scroll }: MascotProps) {
 
     return () => {
       if (t) clearTimeout(t);
-    }
+    };
   }, [percentage]);
 
   const mascotStyle = useAnimatedStyle(() => {
@@ -115,13 +115,17 @@ export function Mascot({ scroll }: MascotProps) {
   );
 
   return (
-    <Animated.View className="h-[160px] overflow-hidden z-0 shadow items-center" style={[mascotStyle]}>
+    <Animated.View
+      className="h-[160px] overflow-hidden z-0 shadow items-center"
+      style={[mascotStyle]}
+    >
       <SpriteAnimation
         fps={ASSETS[state].fps}
         source={ASSETS[state].source}
         frames={ASSETS[state].frames}
-        frameWidth={82}
-        frameHeight={160}
+        frameWidth={200}
+        frameHeight={390}
+        scale={0.41}
       />
     </Animated.View>
   );
