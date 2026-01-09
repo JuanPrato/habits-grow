@@ -21,6 +21,7 @@ export async function getProfile(): Promise<Profile | undefined> {
     lastName: data.last_name,
     picture: data.picture,
     streak: data.streak,
+    pet: "MIND_MAN"
   };
 }
 

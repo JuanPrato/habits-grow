@@ -2,8 +2,10 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 
+import { PETS_DATA } from "@/constants/const";
 import { Profile } from "@/constants/types";
 import { useThemeStore } from "@/store/theme.store";
+import { useUserStore } from "@/store/user.store";
 import { FlameIcon, ProfileIcon } from "../ui/icon";
 import { Typography } from "../ui/typography";
 
@@ -13,6 +15,7 @@ interface Props {
 
 export function ProfileHeader({ profile }: Props) {
   const theme = useThemeStore((s) => s.theme);
+  const pet = useUserStore((s) => s.profile)?.pet ?? "TRAINING_WOMAN";
 
   return (
     <View className="overflow-hidden mb-4">
@@ -42,8 +45,10 @@ export function ProfileHeader({ profile }: Props) {
             </View>
             <View className="size-24 absolute -right-7 -bottom-1 shadow">
               <Image
-                style={{ flex: 1 }}
-                source={require("../../assets/images/character/training_woman/initial.png")}
+                source={PETS_DATA[pet]["initial"].source}
+                style={{
+                  flex: 1,
+                }}
                 contentFit="contain"
               />
             </View>

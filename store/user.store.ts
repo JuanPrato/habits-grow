@@ -1,5 +1,6 @@
 import { getYesterdayDays, updateStreak } from "@/api/habits.api";
 import { createProfile, getProfile } from "@/api/profile.api";
+import { PETS } from "@/constants/const";
 import { Profile } from "@/constants/types";
 import dayjs from "dayjs";
 import { create } from "zustand";
@@ -10,12 +11,14 @@ const INVITE_PROFILE: Profile = {
   name: "Invitado",
   picture: null,
   streak: 0,
+  pet: "TRAINING_WOMAN"
 };
 
 interface UserStoreState {
   profile: Profile | null;
   setProfile: () => Promise<void>;
   checkCurrentStreak: () => Promise<void>;
+  changePet: (pet: typeof PETS[number]) => void;
 }
 
 export const useUserStore = create<UserStoreState>((set, get) => ({
@@ -70,4 +73,16 @@ export const useUserStore = create<UserStoreState>((set, get) => ({
 
     get().setProfile();
   },
+
+  async changePet(pet) {
+    const profile = get().profile;
+
+    if (!profile) return;
+
+    profile.pet = pet;
+
+    set({
+      profile: { ...profile }
+    })
+  }
 }));

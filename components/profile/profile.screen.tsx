@@ -2,6 +2,7 @@ import * as WebBrowser from "expo-web-browser";
 
 import { useUserStore } from "@/store/user.store";
 import { Screen } from "../ui/screen";
+import { PetSelector } from "./pet_selector";
 import { ProfileConfiguration } from "./profile_configuration";
 import { ProfileHeader } from "./profile_header";
 import { ThemeCard } from "./theme_card";
@@ -15,6 +16,7 @@ export function ProfileScreen() {
     <Screen>
       <ProfileHeader profile={profile} />
       <ThemeCard />
+      <PetSelector />
       <ProfileConfiguration />
     </Screen>
   );

@@ -8,26 +8,15 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { HEADER_COLLAPSE_DISTANCE } from "@/constants/const";
+import { HEADER_COLLAPSE_DISTANCE, PETS_DATA } from "@/constants/const";
+import { PetStates } from "@/constants/types";
 import { useHabitStore } from "@/store/habits.store";
+import { useUserStore } from "@/store/user.store";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { SpriteAnimation } from "../ui/sprite_animation";
 
 const { width } = Dimensions.get("window");
-
-const ASSETS = {
-  idle: {
-    source: require("../../assets/images/character/training_woman/sprite.png"),
-    frames: 3,
-    fps: 3,
-  },
-  celebrating: {
-    source: require("../../assets/images/character/training_woman/celebrating.png"),
-    frames: 1,
-    fps: 1,
-  },
-} as const;
 
 interface MascotProps {
   scroll: SharedValue<number>;
@@ -37,7 +26,9 @@ export function Mascot({ scroll }: MascotProps) {
   const percentage = useHabitStore((s) => s.percentageComplete);
   const progress = useSharedValue(percentage);
   const petAnimation = useSharedValue(0);
-  const [state, setState] = useState<keyof typeof ASSETS>("idle");
+  const [state, setState] = useState<PetStates>("idle");
+
+  const pet = useUserStore((s) => s.profile)?.pet ?? "MIND_MAN";
 
   useEffect(() => {
     let t: number;
@@ -120,12 +111,12 @@ export function Mascot({ scroll }: MascotProps) {
       style={[mascotStyle]}
     >
       <SpriteAnimation
-        fps={ASSETS[state].fps}
-        source={ASSETS[state].source}
-        frames={ASSETS[state].frames}
-        frameWidth={200}
-        frameHeight={390}
-        scale={0.41}
+        fps={PETS_DATA[pet][state].fps}
+        source={PETS_DATA[pet][state].source}
+        frames={PETS_DATA[pet][state].frames}
+        frameWidth={PETS_DATA[pet].sizes.width}
+        frameHeight={PETS_DATA[pet].sizes.hight}
+        scale={PETS_DATA[pet].sizes.scale}
       />
     </Animated.View>
   );

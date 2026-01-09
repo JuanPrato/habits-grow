@@ -1,5 +1,6 @@
 import { ThemeName } from "@/store/theme.store";
 import { Dayjs } from "dayjs";
+import { PETS } from "./const";
 import { Color } from "./theme";
 
 export type HabitColor = ThemeName;
@@ -67,4 +68,25 @@ export interface Profile {
   lastName?: string | null;
   picture?: string | null;
   streak: number;
+  pet: typeof PETS[number];
+}
+
+export type PetStates = "initial" | "idle" | "celebrating";
+
+export type Pet = {
+  [key in PetStates]: PetState;
+} & {
+  sizes: PetSizes;
+};
+
+interface PetState {
+  source: any,
+  frames: number,
+  fps: number,
+}
+
+interface PetSizes {
+  scale: number;
+  width: number;
+  hight: number;
 }
