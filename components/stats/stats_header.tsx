@@ -2,12 +2,15 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 
+import { PETS_DATA } from "@/constants/const";
 import { useThemeStore } from "@/store/theme.store";
+import { useUserStore } from "@/store/user.store";
 import { Typography } from "../ui/typography";
 import { PetStats } from "./pet_stats";
 
 export function StatsHeader() {
   const theme = useThemeStore((s) => s.theme);
+  const pet = useUserStore((s) => s.profile)?.pet ?? "TRAINING_WOMAN";
 
   return (
     <LinearGradient
@@ -24,7 +27,7 @@ export function StatsHeader() {
           <View className="size-32 shadow">
             <Image
               style={{ flex: 1 }}
-              source={require("../../assets/images/character/training_woman/initial.png")}
+              source={PETS_DATA[pet]["initial"].source}
               contentFit="contain"
             />
           </View>

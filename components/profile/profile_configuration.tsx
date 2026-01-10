@@ -5,29 +5,25 @@ import {
   DownloadIcon,
   LogOutIcon,
   NotificationsIcon,
-  ProfileIcon,
 } from "../ui/icon";
 import { Typography } from "../ui/typography";
 import { ConfigCard } from "./config_card";
 
 export function ProfileConfiguration() {
-  const { user, signIn, signOut } = useAuth();
+  const { user, signOut } = useAuth();
 
   const ITEMS_WITH_SESSION = [
-    {
-      icon: <ProfileIcon color="primary.700" />,
-      label: "Editar perfil",
-      onPress: () => {},
-    },
     {
       icon: <NotificationsIcon color="primary.700" />,
       label: "Recordatorios",
       onPress: () => {},
+      type: "check",
     },
     {
       icon: <CalendarIcon color="primary.700" />,
       label: "Integrar calendario",
       onPress: () => {},
+      type: "check",
     },
     {
       icon: <DownloadIcon color="primary.700" />,
@@ -42,20 +38,12 @@ export function ProfileConfiguration() {
     },
   ];
 
-  const ITEM_WITHOUT_SESSION = [
-    {
-      icon: <ProfileIcon color="primary.700" />,
-      label: "Iniciar sesión con google",
-      onPress: () => signIn(),
-    },
-  ];
-
   return (
     <View className="p-2 gap-2">
       <Typography type="sectionTitle" size="lg">
         Configuración
       </Typography>
-      <ConfigCard items={!!user ? ITEMS_WITH_SESSION : ITEM_WITHOUT_SESSION} />
+      <ConfigCard items={ITEMS_WITH_SESSION} />
       {!user && (
         <Typography type="info" className="ml-2">
           Para no perder tu progreso inicia sesión

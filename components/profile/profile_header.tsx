@@ -6,8 +6,8 @@ import { PETS_DATA } from "@/constants/const";
 import { Profile } from "@/constants/types";
 import { useThemeStore } from "@/store/theme.store";
 import { useUserStore } from "@/store/user.store";
-import { FlameIcon, ProfileIcon } from "../ui/icon";
-import { Typography } from "../ui/typography";
+import { ProfileIcon } from "../ui/icon";
+import { HeaderName } from "./header_name";
 
 interface Props {
   profile: Profile | null;
@@ -43,7 +43,7 @@ export function ProfileHeader({ profile }: Props) {
                 </View>
               )}
             </View>
-            <View className="size-24 absolute -right-7 -bottom-1 shadow">
+            <View className="size-24 absolute -right-7 -bottom-5 shadow">
               <Image
                 source={PETS_DATA[pet]["initial"].source}
                 style={{
@@ -54,13 +54,7 @@ export function ProfileHeader({ profile }: Props) {
             </View>
           </View>
           <View className="items-center">
-            <Typography type="title" wight="semibold">
-              {profile?.name ?? "Invitado"}
-            </Typography>
-            <View className="flex-row gap-1">
-              <FlameIcon color="orange.500" />
-              <Typography type="subtitle">12 días en racha</Typography>
-            </View>
+            <HeaderName name={profile?.name ?? "Invitado"} />
           </View>
         </View>
       </LinearGradient>

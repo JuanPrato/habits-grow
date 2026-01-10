@@ -38,3 +38,16 @@ export async function createProfile() {
     last_streak_check: getDate(),
   });
 }
+
+export async function updateProfile(profile: Profile) {
+
+  const res = await supabase.from("profiles").update({
+    name: profile.name,
+    picture: profile.picture,
+    streak: profile.streak,
+  }).eq("id", profile.id);
+
+  console.log(res);
+
+  return;
+}

@@ -61,6 +61,7 @@ export const NotificationsIcon = makeIcon(Bell);
 export const CalendarIcon = makeIcon(Calendar);
 export const DownloadIcon = makeIcon(Download);
 export const LogOutIcon = makeIcon(LogOut);
+export const EditIcon = makeIcon(PenLine);
 
 export const HABIT_ICONS: Record<
   HabitIcon,
